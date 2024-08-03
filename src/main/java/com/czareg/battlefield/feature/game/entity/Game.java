@@ -1,14 +1,13 @@
-package com.czareg.battlefield.feature.game;
+package com.czareg.battlefield.feature.game.entity;
 
-import com.czareg.battlefield.feature.unit.Position;
-import com.czareg.battlefield.feature.unit.Unit;
+import com.czareg.battlefield.feature.unit.entity.Unit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,7 +23,6 @@ public class Game {
     @Embedded
     private Board board;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @MapKeyJoinColumn(name = "position_id")
-    private Map<Position, Unit> grid;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Unit> units;
 }

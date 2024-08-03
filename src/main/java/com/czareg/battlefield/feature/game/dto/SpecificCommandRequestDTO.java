@@ -10,5 +10,5 @@ public class SpecificCommandRequestDTO {
 
     String unitId;
     CommandType commandType;
-    List<CommandDetails> commandDetails;
+    List<CommandDetailsDTO> commandDetailDTOS;
 }

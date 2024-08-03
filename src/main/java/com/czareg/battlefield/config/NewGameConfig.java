@@ -17,10 +17,10 @@ import org.springframework.validation.annotation.Validated;
 @ToString
 public class NewGameConfig {
 
-    @Min(1)
+    @Min(2)
     @Max(10)
     private final int boardWidth;
-    @Min(1)
+    @Min(2)
     @Max(10)
     private final int boardHeight;
     @Min(0)

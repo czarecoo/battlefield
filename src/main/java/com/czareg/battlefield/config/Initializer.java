@@ -1,6 +1,5 @@
-package com.czareg.battlefield;
+package com.czareg.battlefield.config;
 
-import com.czareg.battlefield.config.NewGameConfig;
 import com.czareg.battlefield.feature.game.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

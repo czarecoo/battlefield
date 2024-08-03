@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.game;
+package com.czareg.battlefield.feature.unit.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Position {
 
-    private int width;
-    private int height;
+    int x;
+    int y;
 }

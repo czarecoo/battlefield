@@ -1,4 +1,4 @@
-package com.czareg.battlefield.config;
+package com.czareg.battlefield.config.advice;
 
 import java.time.Instant;
 import java.util.List;

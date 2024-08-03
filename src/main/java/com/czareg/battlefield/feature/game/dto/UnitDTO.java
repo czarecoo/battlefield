@@ -1,6 +1,6 @@
 package com.czareg.battlefield.feature.game.dto;
 
-import com.czareg.battlefield.feature.unit.Status;
+import com.czareg.battlefield.feature.unit.entity.Status;
 import lombok.Value;
 
 @Value

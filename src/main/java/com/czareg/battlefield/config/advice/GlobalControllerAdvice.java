@@ -1,4 +1,4 @@
-package com.czareg.battlefield.config;
+package com.czareg.battlefield.config.advice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

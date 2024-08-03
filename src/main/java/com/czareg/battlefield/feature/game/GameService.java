@@ -1,31 +1,27 @@
 package com.czareg.battlefield.feature.game;
 
-import com.czareg.battlefield.config.NewGameConfig;
+import com.czareg.battlefield.feature.game.components.GameFactory;
 import com.czareg.battlefield.feature.game.dto.RandomCommandRequestDTO;
 import com.czareg.battlefield.feature.game.dto.SpecificCommandRequestDTO;
-import com.czareg.battlefield.feature.game.dto.UnitDTO;
+import com.czareg.battlefield.feature.game.entity.Game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class GameService {
 
+    private final GameFactory gameFactory;
     private final GameRepository gameRepository;
-    private final NewGameConfig newGameConfig;
 
-    public Game createGame() {
-        return null;
+    public void createGame() {
+        gameFactory.createGame();
     }
 
-    public List<UnitDTO> listUnits() {
-        Optional<Game> game = gameRepository.findFirstByOrderByIdDesc();
-        return null;
+    public Game listUnits() {
+        return gameRepository.getFirstByOrderByIdDesc();
     }
 
     public void executeSpecificCommand(SpecificCommandRequestDTO specificCommandDTO) {
