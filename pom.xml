@@ -10,9 +10,9 @@
 	</parent>
 
 	<groupId>com.czareg</groupId>
-	<artifactId>chessboard</artifactId>
+	<artifactId>battlefield</artifactId>
 	<version>1.0.0</version>
-	<name>chessboard</name>
+	<name>battlefield</name>
 
 	<properties>
 		<java.version>21</java.version>

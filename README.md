@@ -1,4 +1,4 @@
-# Battle Simulation Server Application
+# Battlefield - Battle Simulation Server Application
 
 ## Game Assumptions/Rules:
 - **Battlefield:** A chessboard with dimensions defined in the configuration
