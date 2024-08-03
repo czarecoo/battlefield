@@ -20,39 +20,14 @@ public class GameController {
         gameService.createGame();
     }
 
-    @GetMapping("/units")
-    public Game listUnits() {
-        Game game = gameService.listUnits();
-        print(game);
-        return game;
+    @GetMapping("/game")
+    public Game getGame() {
+        return gameService.getGame();
     }
 
-    private static void print(Game game) {
-        int width = game.getBoard().getWidth();
-        int height = game.getBoard().getHeight();
-
-        // Initialize the board array with dynamic dimensions
-        String[][] array = new String[width][height];
-
-        // Fill the array with unit information
-        game.getUnits().forEach(unit -> {
-            int x = unit.getPosition().getX();
-            int y = unit.getPosition().getY();
-            array[x][y] = "" + unit.getColor().toString().charAt(0) + unit.getType().toString().charAt(0);
-        });
-
-        // Print the board to the console
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                String cell = array[x][y];
-                if (cell == null) {
-                    System.out.print("[  ] "); // Empty cell
-                } else {
-                    System.out.print("[" + cell + "] "); // Filled cell
-                }
-            }
-            System.out.println(); // New line after each row
-        }
+    @GetMapping("/game/print")
+    public String printGame() {
+        return gameService.printGame();
     }
 
     @PostMapping("/commands/specific")
