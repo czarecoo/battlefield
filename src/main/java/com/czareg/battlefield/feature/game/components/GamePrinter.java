@@ -19,7 +19,7 @@ public class GamePrinter {
         });
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int y = 0; y < height; y++) {
+        for (int y = height-1; y >= 0; y--) {
             for (int x = 0; x < width; x++) {
                 String cell = array[x][y];
                 if (cell == null) {

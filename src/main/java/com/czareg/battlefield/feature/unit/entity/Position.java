@@ -1,18 +1,29 @@
 package com.czareg.battlefield.feature.unit.entity;
 
+import com.czareg.battlefield.feature.game.dto.Direction;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Embeddable
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Position {
 
     int x;
     int y;
+
+    public Position calculateTarget(Direction direction, int squares) {
+        int newX = x;
+        int newY = y;
+        switch (direction) {
+            case LEFT -> newX -= squares;
+            case DOWN -> newY -= squares;
+            case RIGHT -> newX += squares;
+            case UP -> newY += squares;
+        }
+        return new Position(newX, newY);
+    }
 }

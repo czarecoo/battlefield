@@ -15,7 +15,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommandHistory {
+public class Command {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,20 +26,21 @@ public class CommandHistory {
     private Unit unit;
 
     private Instant commandTime;
+    private Instant cooldownFinishingTime;
 
     @Enumerated(EnumType.STRING)
     private CommandType commandType;
 
     @AttributeOverrides({
-            @AttributeOverride(name = "x", column = @Column(name = "currentX")),
-            @AttributeOverride(name = "y", column = @Column(name = "currentY"))
+            @AttributeOverride(name = "x", column = @Column(name = "before_x")),
+            @AttributeOverride(name = "y", column = @Column(name = "before_y"))
     })
     @Embedded
-    private Position current;
+    private Position before;
 
     @AttributeOverrides({
-            @AttributeOverride(name = "x", column = @Column(name = "targetX")),
-            @AttributeOverride(name = "y", column = @Column(name = "targetY"))
+            @AttributeOverride(name = "x", column = @Column(name = "target_x")),
+            @AttributeOverride(name = "y", column = @Column(name = "target_y"))
     })
     @Embedded
     private Position target;

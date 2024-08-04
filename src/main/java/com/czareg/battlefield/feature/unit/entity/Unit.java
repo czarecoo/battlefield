@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.unit.entity;
 
+import com.czareg.battlefield.feature.game.entity.Game;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +24,13 @@ public class Unit {
     @Enumerated(EnumType.STRING)
     private UnitType type;
 
-    private int moveCount;
-
     @Enumerated(EnumType.STRING)
     private Color color;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
 }

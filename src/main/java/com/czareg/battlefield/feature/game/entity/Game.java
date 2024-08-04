@@ -23,6 +23,6 @@ public class Game {
     @Embedded
     private Board board;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Unit> units;
 }
