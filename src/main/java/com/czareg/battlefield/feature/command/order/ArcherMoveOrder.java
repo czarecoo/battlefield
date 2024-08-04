@@ -48,9 +48,6 @@ public class ArcherMoveOrder extends Order {
         if (board.isInvalid(target)) {
             throw new CommandException("ARCHER MOVE target: %s is invalid. Board: %s".formatted(target, board));
         }
-        if (unitService.isPositionOccupied(target)) {
-            throw new CommandException("ARCHER MOVE target: %s is occupied".formatted(target));
-        }
         commandRepository.findFirstByOrderByIdDesc().ifPresent(lastCommand -> {
             Instant cooldownFinishingTime = lastCommand.getCooldownFinishingTime();
             Instant now = Instant.now();
@@ -58,6 +55,9 @@ public class ArcherMoveOrder extends Order {
                 throw new CooldownException(Duration.between(now, cooldownFinishingTime));
             }
         });
+        if (unitService.isPositionOccupied(target)) {
+            throw new CommandException("ARCHER MOVE target: %s is occupied".formatted(target));
+        }
         unit.setPosition(target);
         unitService.save(unit);
         Command command = new Command();

@@ -2,6 +2,7 @@ package com.czareg.battlefield.feature.command.entity;
 
 import com.czareg.battlefield.feature.unit.entity.Position;
 import com.czareg.battlefield.feature.unit.entity.Unit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Command {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", nullable = false)
+    @JsonIgnore
     private Unit unit;
 
     private Instant commandTime;

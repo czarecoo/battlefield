@@ -18,6 +18,6 @@ public class Board {
     public boolean isInvalid(Position target) {
         int x = target.getX();
         int y = target.getY();
-        return x < 0 || x >= width || y < 0 || y >= height;
+        return x < 1 || x > width || y < 1 || y > height;
     }
 }

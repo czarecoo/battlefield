@@ -1,6 +1,7 @@
 package com.czareg.battlefield.feature.unit.entity;
 
 import com.czareg.battlefield.feature.game.entity.Game;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,5 +33,6 @@ public class Unit {
 
     @ManyToOne
     @JoinColumn(name = "game_id")
+    @JsonIgnore
     private Game game;
 }

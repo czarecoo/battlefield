@@ -26,8 +26,8 @@ public class PositionFactory {
 
         int position = 1;
         int allPositions = boardWidth * boardHeight;
-        for (int y = 0; y < boardHeight; y++) {
-            for (int x = 0; x < boardWidth; x++) {
+        for (int y = 1; y <= boardHeight; y++) {
+            for (int x = 1; x <= boardWidth; x++) {
                 Position availablePosition = new Position(x, y);
                 if (allPositions % 2 == 0) {
                     if (position <= allPositions / 2) {
