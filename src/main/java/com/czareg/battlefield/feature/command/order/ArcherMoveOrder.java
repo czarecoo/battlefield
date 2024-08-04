@@ -5,9 +5,9 @@ import com.czareg.battlefield.config.advice.exceptions.CommandException;
 import com.czareg.battlefield.config.advice.exceptions.CooldownException;
 import com.czareg.battlefield.feature.command.CommandRepository;
 import com.czareg.battlefield.feature.command.entity.Command;
-import com.czareg.battlefield.feature.game.dto.CommandDetailsDTO;
-import com.czareg.battlefield.feature.game.dto.Direction;
-import com.czareg.battlefield.feature.game.dto.SpecificCommandRequestDTO;
+import com.czareg.battlefield.feature.game.dto.request.CommandDetailsDTO;
+import com.czareg.battlefield.feature.game.dto.request.Direction;
+import com.czareg.battlefield.feature.game.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.game.entity.Board;
 import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Position;
@@ -40,26 +40,35 @@ public class ArcherMoveOrder extends Order {
         Direction direction = detail.getDirection();
         int squares = detail.getSquares();
         if (squares != 1) {
-            throw new CommandException("ARCHER MOVE command is limited to 1 square");
+            throw new CommandException("Command is limited to 1 square");
         }
         Board board = unit.getGame().getBoard();
         Position currentPosition = unit.getPosition();
         Position target = currentPosition.calculateTarget(direction, squares);
         if (board.isInvalid(target)) {
-            throw new CommandException("ARCHER MOVE target: %s is invalid. Board: %s".formatted(target, board));
+            throw new CommandException("Target: %s is out of bounds (1 <= x <= %d) && (1 <= y <= %d)".formatted(target, board.getWidth(), board.getHeight()));
         }
-        commandRepository.findFirstByOrderByIdDesc().ifPresent(lastCommand -> {
+        checkCooldown(unit);
+        if (unitService.isPositionOccupied(target)) {
+            throw new CommandException("Target: %s is occupied".formatted(target));
+        }
+        unit.setPosition(target);
+        unitService.save(unit);
+        Command command = prepareCommand(currentPosition, target, unit);
+        commandRepository.save(command);
+    }
+
+    private void checkCooldown(Unit unit) {
+        commandRepository.findFirstByUnitIdOrderByIdDesc(unit.getId()).ifPresent(lastCommand -> {
             Instant cooldownFinishingTime = lastCommand.getCooldownFinishingTime();
             Instant now = Instant.now();
             if (now.isBefore(cooldownFinishingTime)) {
                 throw new CooldownException(Duration.between(now, cooldownFinishingTime));
             }
         });
-        if (unitService.isPositionOccupied(target)) {
-            throw new CommandException("ARCHER MOVE target: %s is occupied".formatted(target));
-        }
-        unit.setPosition(target);
-        unitService.save(unit);
+    }
+
+    private Command prepareCommand(Position currentPosition, Position target, Unit unit) {
         Command command = new Command();
         command.setCommandTime(Instant.now());
         command.setBefore(currentPosition);
@@ -67,7 +76,7 @@ public class ArcherMoveOrder extends Order {
         command.setUnit(unit);
         command.setCooldownFinishingTime(Instant.now().plusMillis(cooldownConfig.getArcherMove()));
         command.setCommandType(MOVE);
-        commandRepository.save(command);
+        return command;
     }
 }
 

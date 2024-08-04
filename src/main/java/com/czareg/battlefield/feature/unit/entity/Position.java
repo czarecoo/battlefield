@@ -1,6 +1,6 @@
 package com.czareg.battlefield.feature.unit.entity;
 
-import com.czareg.battlefield.feature.game.dto.Direction;
+import com.czareg.battlefield.feature.game.dto.request.Direction;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 

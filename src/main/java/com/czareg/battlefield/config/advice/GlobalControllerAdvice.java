@@ -2,6 +2,7 @@ package com.czareg.battlefield.config.advice;
 
 import com.czareg.battlefield.config.advice.exceptions.CommandException;
 import com.czareg.battlefield.config.advice.exceptions.CooldownException;
+import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,19 @@ import java.util.UUID;
 @Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(OptimisticLockException.class)
+    public ErrorResponse handleOptimisticLockException(OptimisticLockException ex, WebRequest request) {
+        return new ErrorResponse(Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                request.getDescription(false),
+                List.of(),
+                "The unit was updated by another transaction. Please try again.",
+                UUID.randomUUID().toString()
+        );
+    }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(CommandException.class)

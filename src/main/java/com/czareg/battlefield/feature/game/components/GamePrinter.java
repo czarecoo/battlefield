@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.game.components;
 
+import com.czareg.battlefield.feature.game.entity.Board;
 import com.czareg.battlefield.feature.game.entity.Game;
 import org.springframework.stereotype.Component;
 
@@ -7,8 +8,9 @@ import org.springframework.stereotype.Component;
 public class GamePrinter {
 
     public String print(Game game) {
-        int width = game.getBoard().getWidth();
-        int height = game.getBoard().getHeight();
+        Board board = game.getBoard();
+        int width = board.getWidth();
+        int height = board.getHeight();
 
         String[][] array = new String[width][height];
 

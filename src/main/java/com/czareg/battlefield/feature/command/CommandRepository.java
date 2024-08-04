@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CommandRepository extends JpaRepository<Command, Long> {
 
-    Optional<Command> findFirstByOrderByIdDesc();
+    Optional<Command> findFirstByUnitIdOrderByIdDesc(Long unitId);
 }

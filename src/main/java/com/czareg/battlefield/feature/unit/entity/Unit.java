@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.unit.entity;
 
+import com.czareg.battlefield.feature.game.dto.response.UnitDTO;
 import com.czareg.battlefield.feature.game.entity.Game;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -35,4 +36,17 @@ public class Unit {
     @JoinColumn(name = "game_id")
     @JsonIgnore
     private Game game;
+
+    @Version
+    private Integer version;
+
+    public UnitDTO toDTO() {
+        return UnitDTO.builder()
+                .id(id)
+                .position(position)
+                .type(type)
+                .color(color)
+                .status(status)
+                .build();
+    }
 }

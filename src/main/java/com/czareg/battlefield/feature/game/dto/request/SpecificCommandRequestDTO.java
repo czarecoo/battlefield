@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.game.dto;
+package com.czareg.battlefield.feature.game.dto.request;
 
 import com.czareg.battlefield.feature.command.entity.CommandType;
 import jakarta.validation.constraints.NotEmpty;

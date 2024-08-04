@@ -9,6 +9,7 @@ import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -28,6 +29,7 @@ public class GameFactory {
         gameRepository.save(game);
         List<Unit> units = unitFactory.createUnits(game);
         game.setUnits(units);
+        game.setStarted(Instant.now());
         gameRepository.save(game);
     }
 }
