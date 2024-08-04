@@ -2,8 +2,6 @@ package com.czareg.battlefield.feature.game;
 
 import com.czareg.battlefield.feature.game.components.GameFactory;
 import com.czareg.battlefield.feature.game.components.GamePrinter;
-import com.czareg.battlefield.feature.game.dto.RandomCommandRequestDTO;
-import com.czareg.battlefield.feature.game.dto.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.game.entity.Game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +27,6 @@ public class GameService {
     public String printGame() {
         Game game = getGame();
         return gamePrinter.print(game);
-    }
-
-    public void executeSpecificCommand(SpecificCommandRequestDTO specificCommandDTO) {
-
-    }
-
-    public void executeRandomCommand(RandomCommandRequestDTO randomCommandDTO) {
-
     }
 
     public boolean isGameRepositoryEmpty() {

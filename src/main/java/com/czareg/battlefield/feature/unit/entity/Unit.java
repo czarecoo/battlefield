@@ -16,13 +16,18 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Embedded
     private Position position;
+
     @Enumerated(EnumType.STRING)
     private UnitType type;
+
     private int moveCount;
+
     @Enumerated(EnumType.STRING)
     private Color color;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 }
