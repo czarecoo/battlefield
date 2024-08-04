@@ -30,9 +30,9 @@ public class CommandService {
     public void executeSpecificCommand(SpecificCommandRequestDTO specificCommandDTO) {
         Long unitId = specificCommandDTO.getUnitId();
         Unit unit = unitService.findById(unitId)
-                .orElseThrow(() -> new CommandException("Invalid unit Id: %s".formatted(unitId)));
+                .orElseThrow(() -> new CommandException("Invalid unit id: %s".formatted(unitId)));
         if (unit.getStatus() == DESTROYED) {
-            throw new CommandException("Unit destroyed");
+            throw new CommandException("Unit is destroyed");
         }
         CommandType commandType = specificCommandDTO.getCommand();
         UnitType unitType = unit.getType();

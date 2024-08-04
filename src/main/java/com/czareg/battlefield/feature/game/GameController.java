@@ -5,6 +5,8 @@ import com.czareg.battlefield.feature.unit.entity.Color;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/game")
 @RequiredArgsConstructor
@@ -13,6 +15,7 @@ public class GameController {
     private final GameService gameService;
 
     @PostMapping
+    @ResponseStatus(CREATED)
     public void createGame() {
         gameService.createGame();
     }
