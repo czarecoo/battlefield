@@ -40,18 +40,15 @@ public class CommandService {
         Long unitId = specificCommandDTO.getUnitId();
         Unit unit = unitService.findById(unitId)
                 .orElseThrow(() -> new CommandException("Unknown unit id: %s".formatted(unitId)));
-
         checkIfUnitIsActive(unit);
-
         checkIfUnitBelongsToCurrentGame(unit);
-
         checkCooldown(unitId);
 
         CommandType commandType = specificCommandDTO.getCommand();
         UnitType unitType = unit.getType();
         Order order = orderChooser.choose(unitType, commandType);
 
-        OrderContext orderContext = new OrderContext(unit, specificCommandDTO);
+        OrderContext orderContext = new OrderContext(unit, specificCommandDTO.getDetails());
         Command command = order.execute(orderContext);
 
         commandRepository.save(command);

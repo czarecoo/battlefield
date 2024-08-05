@@ -17,7 +17,7 @@ public class Position {
     int x;
     int y;
 
-    public Position calculateTarget(Direction direction, int squares) {
+    public Position calculateNewPosition(Direction direction, int squares) {
         int newX = x;
         int newY = y;
         switch (direction) {
