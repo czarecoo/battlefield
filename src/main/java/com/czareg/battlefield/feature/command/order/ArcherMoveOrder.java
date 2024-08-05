@@ -34,7 +34,7 @@ public class ArcherMoveOrder extends Order {
         SpecificCommandRequestDTO specificCommandDTO = context.getSpecificCommandDTO();
         List<CommandDetailsDTO> details = specificCommandDTO.getDetails();
         if (details.size() != 1) {
-            throw new CommandException("ARCHER MOVE command requires one detail");
+            throw new CommandException("Command requires one detail");
         }
         CommandDetailsDTO detail = details.getFirst();
         Direction direction = detail.getDirection();
@@ -53,7 +53,6 @@ public class ArcherMoveOrder extends Order {
             throw new CommandException("Target: %s is occupied".formatted(target));
         }
         unit.setPosition(target);
-        unitService.save(unit);
         Command command = prepareCommand(currentPosition, target, unit);
         commandRepository.save(command);
     }

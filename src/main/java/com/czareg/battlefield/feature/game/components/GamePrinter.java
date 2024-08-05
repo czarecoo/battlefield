@@ -17,7 +17,7 @@ public class GamePrinter {
         game.getUnits().forEach(unit -> {
             int x = unit.getPosition().getX();
             int y = unit.getPosition().getY();
-            array[x-1][y-1] = "%c%c%03d".formatted(unit.getColor().toString().charAt(0), unit.getType().toString().charAt(0), unit.getId());
+            array[x - 1][y - 1] = "%c%c%03d%c".formatted(unit.getColor().toString().charAt(0), unit.getType().toString().charAt(0), unit.getId(), unit.getStatus().toString().charAt(0));
         });
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -25,7 +25,7 @@ public class GamePrinter {
             for (int x = 0; x < width; x++) {
                 String cell = array[x][y];
                 if (cell == null) {
-                    stringBuilder.append("[     ] ");
+                    stringBuilder.append("[      ] ");
                 } else {
                     stringBuilder.append("[").append(cell).append("] ");
                 }

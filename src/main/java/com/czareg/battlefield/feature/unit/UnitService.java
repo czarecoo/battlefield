@@ -17,6 +17,10 @@ public class UnitService {
         return unitRepository.existsByPosition(position);
     }
 
+    public Optional<Unit> findByPosition(Position position) {
+        return unitRepository.findByPosition(position);
+    }
+
     public Optional<Unit> findById(Long unitId) {
         return unitRepository.findById(unitId);
     }

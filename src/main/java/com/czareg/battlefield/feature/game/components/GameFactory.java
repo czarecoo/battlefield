@@ -27,6 +27,7 @@ public class GameFactory {
         board.setHeight(newGameConfig.getBoardHeight());
         game.setBoard(board);
         gameRepository.save(game);
+
         List<Unit> units = unitFactory.createUnits(game);
         game.setUnits(units);
         game.setStarted(Instant.now());
