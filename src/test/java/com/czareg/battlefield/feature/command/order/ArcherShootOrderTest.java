@@ -89,6 +89,7 @@ class ArcherShootOrderTest {
     void shouldDestroyTargetUnitWhenFound() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(3L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
@@ -99,7 +100,7 @@ class ArcherShootOrderTest {
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
         Unit targetUnit = mock(Unit.class);
-        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.of(targetUnit));
+        when(unitService.findActiveByPositionAndGameId(targetPosition, 3L)).thenReturn(Optional.of(targetUnit));
         when(cooldownConfig.getArcherShot()).thenReturn(1000);
 
         Command command = archerShootOrder.doExecute(context);
@@ -111,13 +112,14 @@ class ArcherShootOrderTest {
         assertEquals(SHOOT, command.getType());
         assertEquals(1000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
         verify(targetUnit, times(1)).setStatus(DESTROYED);
-        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+        verify(unitService, times(1)).findActiveByPositionAndGameId(targetPosition, 3L);
     }
 
     @Test
     void shouldReturnCommandWhenTargetUnitNotFound() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(3L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
@@ -127,7 +129,7 @@ class ArcherShootOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.empty());
+        when(unitService.findActiveByPositionAndGameId(targetPosition, 3L)).thenReturn(Optional.empty());
         when(cooldownConfig.getArcherShot()).thenReturn(12000);
 
         Command command = archerShootOrder.doExecute(context);
@@ -138,7 +140,7 @@ class ArcherShootOrderTest {
         assertEquals(targetPosition, command.getTarget());
         assertEquals(SHOOT, command.getType());
         assertEquals(12000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
-        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+        verify(unitService, times(1)).findActiveByPositionAndGameId(targetPosition, 3L);
         verify(unit, never()).setPosition(targetPosition);
     }
 }

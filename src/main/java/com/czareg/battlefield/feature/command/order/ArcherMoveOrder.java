@@ -43,7 +43,7 @@ public class ArcherMoveOrder extends Order {
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 
-        if (unitService.existsActiveByPosition(target)) {
+        if (unitService.existsActiveByPositionAndGameId(target, unit.getGame().getId())) {
             throw new CommandException("Target: %s is occupied".formatted(target));
         }
         unit.setPosition(target);

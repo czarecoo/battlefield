@@ -44,7 +44,7 @@ public class ArcherShootOrder extends Order {
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 
-        unitService.findActiveByPosition(target).ifPresent(targetUnit -> targetUnit.setStatus(DESTROYED));
+        unitService.findActiveByPositionAndGameId(target, unit.getGame().getId()).ifPresent(targetUnit -> targetUnit.setStatus(DESTROYED));
 
         return createCommand(current, target, unit, cooldownConfig.getArcherShot(), SHOOT);
     }

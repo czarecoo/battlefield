@@ -14,12 +14,12 @@ public class UnitService {
 
     private final UnitRepository unitRepository;
 
-    public boolean existsActiveByPosition(Position position) {
-        return unitRepository.existsActiveByPosition(position);
+    public boolean existsActiveByPositionAndGameId(Position position, Long gameId) {
+        return unitRepository.existsActiveByPositionAndGameId(position, gameId);
     }
 
-    public Optional<Unit> findActiveByPosition(Position position) {
-        return unitRepository.findActiveByPosition(position);
+    public Optional<Unit> findActiveByPositionAndGameId(Position position, Long gameId) {
+        return unitRepository.findActiveByPositionAndGameId(position, gameId);
     }
 
     public Optional<Unit> findById(Long unitId) {

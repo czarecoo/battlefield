@@ -118,6 +118,7 @@ class CannonShootOrderTest {
     void shouldDestroyTargetUnitWhenFound() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(4L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
@@ -128,7 +129,7 @@ class CannonShootOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.of(targetUnit));
+        when(unitService.findActiveByPositionAndGameId(targetPosition, 4L)).thenReturn(Optional.of(targetUnit));
         when(cooldownConfig.getCannonShot()).thenReturn(1000);
 
         Command command = cannonShootOrder.doExecute(context);
@@ -140,13 +141,14 @@ class CannonShootOrderTest {
         assertEquals(SHOOT, command.getType());
         assertEquals(1000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
         verify(targetUnit, times(1)).setStatus(DESTROYED);
-        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+        verify(unitService, times(1)).findActiveByPositionAndGameId(targetPosition, 4L);
     }
 
     @Test
     void shouldReturnCommandWhenTargetUnitNotFound() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(5L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
@@ -156,7 +158,7 @@ class CannonShootOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.empty());
+        when(unitService.findActiveByPositionAndGameId(targetPosition, 5L)).thenReturn(Optional.empty());
         when(cooldownConfig.getCannonShot()).thenReturn(2000);
 
         Command command = cannonShootOrder.doExecute(context);
@@ -167,7 +169,7 @@ class CannonShootOrderTest {
         assertEquals(targetPosition, command.getTarget());
         assertEquals(SHOOT, command.getType());
         assertEquals(2000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
-        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+        verify(unitService, times(1)).findActiveByPositionAndGameId(targetPosition, 5L);
         verify(unit, never()).setPosition(targetPosition);
     }
 }

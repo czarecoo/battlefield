@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface UnitRepository extends JpaRepository<Unit, Long> {
 
-    @Query("SELECT COUNT(u) > 0 FROM Unit u WHERE u.position = :position AND u.status = 'ACTIVE'")
-    boolean existsActiveByPosition(@Param("position") Position position);
+    @Query("SELECT COUNT(u) > 0 FROM Unit u WHERE u.position = :position AND u.status = 'ACTIVE' AND u.game.id = :gameId")
+    boolean existsActiveByPositionAndGameId(@Param("position") Position position, @Param("gameId") Long gameId);
 
-    @Query("SELECT u FROM Unit u WHERE u.position = :position AND u.status = 'ACTIVE'")
-    Optional<Unit> findActiveByPosition(@Param("position") Position position);
+    @Query("SELECT u FROM Unit u WHERE u.position = :position AND u.status = 'ACTIVE' AND u.game.id = :gameId")
+    Optional<Unit> findActiveByPositionAndGameId(@Param("position") Position position, @Param("gameId") Long gameId);
 }

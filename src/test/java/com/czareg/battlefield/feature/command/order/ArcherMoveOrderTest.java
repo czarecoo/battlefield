@@ -89,6 +89,7 @@ class ArcherMoveOrderTest {
     void shouldThrowCommandExceptionWhenTargetIsOccupied() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(1L);
         game.setBoard(board);
         Unit unit = new Unit();
         Position currentPosition = new Position(2, 2);
@@ -98,7 +99,7 @@ class ArcherMoveOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.existsActiveByPosition(targetPosition)).thenReturn(true);
+        when(unitService.existsActiveByPositionAndGameId(targetPosition, 1L)).thenReturn(true);
 
         assertThrows(CommandException.class, () -> archerMoveOrder.doExecute(context));
     }
@@ -107,6 +108,7 @@ class ArcherMoveOrderTest {
     void shouldReturnCommandWhenExecutionIsSuccessful() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(1L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
@@ -116,7 +118,7 @@ class ArcherMoveOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.existsActiveByPosition(targetPosition)).thenReturn(false);
+        when(unitService.existsActiveByPositionAndGameId(targetPosition, 1L)).thenReturn(false);
         when(cooldownConfig.getArcherMove()).thenReturn(1000);
 
         Command command = archerMoveOrder.doExecute(context);
@@ -127,7 +129,7 @@ class ArcherMoveOrderTest {
         assertEquals(targetPosition, command.getTarget());
         assertEquals(MOVE, command.getType());
         assertEquals(1000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
-        verify(unitService, times(1)).existsActiveByPosition(targetPosition);
+        verify(unitService, times(1)).existsActiveByPositionAndGameId(targetPosition, 1L);
         verify(unit, times(1)).setPosition(targetPosition);
     }
 }

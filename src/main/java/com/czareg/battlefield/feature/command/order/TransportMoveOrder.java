@@ -6,6 +6,7 @@ import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
 import com.czareg.battlefield.feature.command.entity.Command;
 import com.czareg.battlefield.feature.command.order.utils.PathCalculator;
 import com.czareg.battlefield.feature.common.entity.Position;
+import com.czareg.battlefield.feature.game.entity.Game;
 import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +57,10 @@ public class TransportMoveOrder extends Order {
     private Position processTargetsAndReturnLastValid(List<Position> targets, Unit unit) {
         Position lastValidTarget = unit.getPosition();
         for (Position target : targets) {
-            validateTargetInBounds(target, unit.getGame().getBoard());
+            Game game = unit.getGame();
+            validateTargetInBounds(target, game.getBoard());
 
-            Optional<Unit> targetUnitOptional = unitService.findActiveByPosition(target);
+            Optional<Unit> targetUnitOptional = unitService.findActiveByPositionAndGameId(target, game.getId());
             if (targetUnitOptional.isPresent()) {
                 Unit targetUnit = targetUnitOptional.get();
                 if (targetUnit.getColor() == unit.getColor()) {

@@ -100,6 +100,7 @@ class TransportMoveOrderTest {
     void shouldUpdateUnitPositionAndCreateCommandWhenExecutionIsSuccessful() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(1L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position startPosition = new Position(2, 2);
@@ -111,7 +112,7 @@ class TransportMoveOrderTest {
         when(cooldownConfig.getTransportMove()).thenReturn(500);
         when(pathCalculator.calculate(startPosition, detail)).thenReturn(targets);
         OrderContext context = new OrderContext(unit, List.of(detail));
-        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.empty());
+        when(unitService.findActiveByPositionAndGameId(targetPosition, 1L)).thenReturn(Optional.empty());
 
         Command command = transportMoveOrder.doExecute(context);
 
@@ -128,6 +129,7 @@ class TransportMoveOrderTest {
     void shouldDestroyOneEnemyUnitAndStopBecauseNextTargetIsFriendly() {
         Board board = new Board(5, 5);
         Game game = new Game();
+        game.setId(2L);
         game.setBoard(board);
         Unit unit = mock(Unit.class);
         Position startPosition = new Position(1, 1);
@@ -140,8 +142,8 @@ class TransportMoveOrderTest {
         when(secondTarget.getColor()).thenReturn(Color.WHITE);
         Position firstTargetPosition = new Position(2, 1);
         Position secondTargetPosition = new Position(3, 1);
-        when(unitService.findActiveByPosition(firstTargetPosition)).thenReturn(Optional.of(firstTarget));
-        when(unitService.findActiveByPosition(secondTargetPosition)).thenReturn(Optional.of(secondTarget));
+        when(unitService.findActiveByPositionAndGameId(firstTargetPosition, 2L)).thenReturn(Optional.of(firstTarget));
+        when(unitService.findActiveByPositionAndGameId(secondTargetPosition, 2L)).thenReturn(Optional.of(secondTarget));
         List<Position> positions = List.of(firstTargetPosition, secondTargetPosition);
         CommandDetailsDTO detail = new CommandDetailsDTO(RIGHT, 3);
         when(cooldownConfig.getTransportMove()).thenReturn(5000);
