@@ -1,0 +1,320 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2024-08-05T14:30:43.074Z",
+  "__export_source": "insomnia.desktop.app:v9.3.3",
+  "resources": [
+    {
+      "_id": "req_5473f955de574bcc88f9ae9e911050cf",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722788597022,
+      "created": 1722786673634,
+      "url": "localhost:8080/game",
+      "name": "/game&color=WHITE",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_67327c11f8904255a8f5110b8708728a",
+          "name": "color",
+          "value": "WHITE",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788591357,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_0e19acc693424d82b43759b15ec49100",
+      "parentId": "wrk_scratchpad",
+      "modified": 1722868192016,
+      "created": 1722788577142,
+      "name": "battlefield",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1722788577142,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_scratchpad",
+      "parentId": null,
+      "modified": 1722703738161,
+      "created": 1722703738161,
+      "name": "Scratch Pad",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_c869bc86a7e649cb9ba8c4f77828e1de",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722788595594,
+      "created": 1722703771579,
+      "url": "localhost:8080/game",
+      "name": "/game",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788591257,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a2fc985207b94aa5a9c40800db0e388a",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722788594276,
+      "created": 1722703836429,
+      "url": "localhost:8080/game/print",
+      "name": "/game/print",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788591157,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a758b1b50e5d4f78a401585c4e089bd1",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722788593021,
+      "created": 1722703951213,
+      "url": "localhost:8080/game",
+      "name": "/game",
+      "description": "",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788591057,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_cb9e951fed1e4e3abdd98a74d568cb30",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722864804121,
+      "created": 1722769623493,
+      "url": "localhost:8080/commands/specific",
+      "name": "/commands/specific ARCHER MOVE",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"unitId\": 1,\n\t\"command\": \"MOVE\",\n\t\"details\": [\n\t\t{\n\t\t\t\"direction\": \"LEFT\",\n\t\t\t\"squares\": 1\n\t\t}\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788590957,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_88a1614cf6384c27ac0f8af95cc80fb5",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722864648500,
+      "created": 1722847279970,
+      "url": "localhost:8080/commands/specific",
+      "name": "/commands/specific ARCHER SHOOT",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"unitId\": 5,\n\t\"command\": \"SHOOT\",\n\t\"details\": [\n\t\t{\n\t\t\t\"direction\": \"UP\",\n\t\t\t\"squares\": 3\n\t\t}\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788590907,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_1bfd340212e54755b361873e08580618",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722850541217,
+      "created": 1722849670076,
+      "url": "localhost:8080/commands/specific",
+      "name": "/commands/specific CANNON SHOOT",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"unitId\": 9,\n\t\"command\": \"SHOOT\",\n\t\"details\": [\n\t\t{\n\t\t\t\"direction\": \"LEFT\",\n\t\t\t\"squares\": 1\n\t\t},\n\t\t{\n\t\t\t\"direction\": \"UP\",\n\t\t\t\"squares\": 4\n\t\t}\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788590857,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5ca5d52a58cf4b0aa97ee1b3aec1e7c2",
+      "parentId": "fld_0e19acc693424d82b43759b15ec49100",
+      "modified": 1722858924663,
+      "created": 1722858107650,
+      "url": "localhost:8080/commands/specific",
+      "name": "/commands/specific TRANSPORT MOVE",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"unitId\": 21,\n\t\"command\": \"MOVE\",\n\t\"details\": [\n\t\t{\n\t\t\t\"direction\": \"RIGHT\",\n\t\t\t\"squares\": 3\n\t\t}\n\t]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/9.3.3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1722788590807,
+      "isPrivate": false,
+      "pathParameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_99d30891da4bdcebc63947a8fc17f076de878684",
+      "parentId": "wrk_scratchpad",
+      "modified": 1722703749393,
+      "created": 1722703749393,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1722703749393,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_99d30891da4bdcebc63947a8fc17f076de878684",
+      "parentId": "wrk_scratchpad",
+      "modified": 1722703749520,
+      "created": 1722703749520,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}
