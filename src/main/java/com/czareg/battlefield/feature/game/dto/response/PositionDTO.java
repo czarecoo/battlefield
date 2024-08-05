@@ -13,4 +13,5 @@ public class PositionDTO {
 
     int x;
     int y;
+
 }

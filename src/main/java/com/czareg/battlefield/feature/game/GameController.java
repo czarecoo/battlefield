@@ -1,7 +1,7 @@
 package com.czareg.battlefield.feature.game;
 
+import com.czareg.battlefield.feature.common.enums.Color;
 import com.czareg.battlefield.feature.game.dto.response.GameDTO;
-import com.czareg.battlefield.feature.unit.entity.Color;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

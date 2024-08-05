@@ -1,7 +1,6 @@
-package com.czareg.battlefield.feature.game.entity;
+package com.czareg.battlefield.feature.common.entity;
 
 import com.czareg.battlefield.feature.game.dto.response.BoardDTO;
-import com.czareg.battlefield.feature.unit.entity.Position;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class Board {
     private int width;
     private int height;
 
-    public boolean isInvalid(Position target) {
+    public boolean isOutOfBounds(Position target) {
         int x = target.getX();
         int y = target.getY();
         return x < LOWEST_VALID_X || x > width || y < LOWEST_VALID_Y || y > height;

@@ -1,5 +1,6 @@
-package com.czareg.battlefield.feature.game.dto.request;
+package com.czareg.battlefield.feature.command.dto.request;
 
+import com.czareg.battlefield.feature.common.enums.Direction;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Value;

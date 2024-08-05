@@ -1,6 +1,7 @@
 package com.czareg.battlefield.feature.command.entity;
 
-import com.czareg.battlefield.feature.unit.entity.Position;
+import com.czareg.battlefield.feature.common.entity.Position;
+import com.czareg.battlefield.feature.common.enums.CommandType;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -27,20 +28,20 @@ public class Command {
     @JsonIgnore
     private Unit unit;
 
-    private Instant commandTime;
-    private Instant cooldownFinishingTime;
+    private Instant createdAt;
+    private Instant cooldownFinishingAt;
 
     @Enumerated(EnumType.STRING)
-    private CommandType commandType;
+    private CommandType type;
 
-    @AttributeOverrides({
+    @AttributeOverrides(value = {
             @AttributeOverride(name = "x", column = @Column(name = "before_x")),
             @AttributeOverride(name = "y", column = @Column(name = "before_y"))
     })
     @Embedded
     private Position before;
 
-    @AttributeOverrides({
+    @AttributeOverrides(value = {
             @AttributeOverride(name = "x", column = @Column(name = "target_x")),
             @AttributeOverride(name = "y", column = @Column(name = "target_y"))
     })

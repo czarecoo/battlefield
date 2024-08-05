@@ -1,9 +1,8 @@
 package com.czareg.battlefield.feature.game.dto.response;
 
-import com.czareg.battlefield.feature.unit.entity.Color;
-import com.czareg.battlefield.feature.unit.entity.Position;
-import com.czareg.battlefield.feature.unit.entity.Status;
-import com.czareg.battlefield.feature.unit.entity.UnitType;
+import com.czareg.battlefield.feature.common.enums.Color;
+import com.czareg.battlefield.feature.common.enums.Status;
+import com.czareg.battlefield.feature.common.enums.UnitType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class UnitDTO {
 
     private Long id;
-    private Position position;
+    private PositionDTO position;
     private UnitType type;
     private Color color;
     private Status status;

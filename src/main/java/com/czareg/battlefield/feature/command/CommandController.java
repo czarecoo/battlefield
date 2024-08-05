@@ -1,7 +1,7 @@
 package com.czareg.battlefield.feature.command;
 
-import com.czareg.battlefield.feature.game.dto.request.RandomCommandRequestDTO;
-import com.czareg.battlefield.feature.game.dto.request.SpecificCommandRequestDTO;
+import com.czareg.battlefield.feature.command.dto.request.RandomCommandRequestDTO;
+import com.czareg.battlefield.feature.command.dto.request.SpecificCommandRequestDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.unit.entity;
+package com.czareg.battlefield.feature.common.enums;
 
 public enum UnitType {
 

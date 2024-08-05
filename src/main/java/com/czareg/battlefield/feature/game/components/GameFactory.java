@@ -1,8 +1,8 @@
 package com.czareg.battlefield.feature.game.components;
 
 import com.czareg.battlefield.config.NewGameConfig;
+import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.GameRepository;
-import com.czareg.battlefield.feature.game.entity.Board;
 import com.czareg.battlefield.feature.game.entity.Game;
 import com.czareg.battlefield.feature.unit.components.UnitFactory;
 import com.czareg.battlefield.feature.unit.entity.Unit;
@@ -30,7 +30,6 @@ public class GameFactory {
 
         List<Unit> units = unitFactory.createUnits(game);
         game.setUnits(units);
-        game.setStarted(Instant.now());
-        gameRepository.save(game);
+        game.setCreatedAt(Instant.now());
     }
 }

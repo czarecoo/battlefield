@@ -1,6 +1,6 @@
 package com.czareg.battlefield.feature.unit;
 
-import com.czareg.battlefield.feature.unit.entity.Position;
+import com.czareg.battlefield.feature.common.entity.Position;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,14 +1,14 @@
 package com.czareg.battlefield.feature.command.order;
 
 import com.czareg.battlefield.config.advice.exceptions.CommandException;
-import com.czareg.battlefield.feature.command.entity.CommandType;
-import com.czareg.battlefield.feature.unit.entity.UnitType;
+import com.czareg.battlefield.feature.common.enums.CommandType;
+import com.czareg.battlefield.feature.common.enums.UnitType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.czareg.battlefield.feature.command.entity.CommandType.MOVE;
-import static com.czareg.battlefield.feature.command.entity.CommandType.SHOOT;
-import static com.czareg.battlefield.feature.unit.entity.UnitType.*;
+import static com.czareg.battlefield.feature.common.enums.CommandType.MOVE;
+import static com.czareg.battlefield.feature.common.enums.CommandType.SHOOT;
+import static com.czareg.battlefield.feature.common.enums.UnitType.*;
 
 @Component
 @RequiredArgsConstructor

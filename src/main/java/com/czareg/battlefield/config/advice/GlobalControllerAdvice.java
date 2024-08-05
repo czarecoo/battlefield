@@ -33,12 +33,12 @@ public class GlobalControllerAdvice {
         );
     }
 
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CommandException.class)
     public ErrorResponse handleCommandException(CommandException ex, WebRequest request) {
         return new ErrorResponse(Instant.now(),
-                HttpStatus.CONFLICT.value(),
-                HttpStatus.CONFLICT.getReasonPhrase(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 request.getDescription(false),
                 List.of(),
                 ex.getMessage(),

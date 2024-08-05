@@ -1,8 +1,8 @@
 package com.czareg.battlefield.feature.unit.components;
 
 import com.czareg.battlefield.config.NewGameConfig;
-import com.czareg.battlefield.feature.unit.entity.Color;
-import com.czareg.battlefield.feature.unit.entity.Position;
+import com.czareg.battlefield.feature.common.entity.Position;
+import com.czareg.battlefield.feature.common.enums.Color;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static com.czareg.battlefield.feature.common.enums.Color.BLACK;
+import static com.czareg.battlefield.feature.common.enums.Color.WHITE;
 
 @Component
 @RequiredArgsConstructor
@@ -49,9 +52,6 @@ public class PositionFactory {
         Collections.shuffle(availableWhitePositions);
         Collections.shuffle(availableBlackPositions);
 
-        return Map.of(
-                Color.WHITE, availableWhitePositions,
-                Color.BLACK, availableBlackPositions
-        );
+        return Map.of(WHITE, availableWhitePositions, BLACK, availableBlackPositions);
     }
 }

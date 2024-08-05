@@ -1,10 +1,10 @@
 package com.czareg.battlefield.feature.game.components;
 
-import com.czareg.battlefield.feature.game.entity.Board;
+import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.entity.Game;
 import org.springframework.stereotype.Component;
 
-import static com.czareg.battlefield.feature.unit.entity.Status.DESTROYED;
+import static com.czareg.battlefield.feature.common.enums.Status.DESTROYED;
 
 @Component
 public class GamePrinter {

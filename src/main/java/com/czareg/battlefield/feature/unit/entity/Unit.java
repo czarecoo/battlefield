@@ -1,5 +1,9 @@
 package com.czareg.battlefield.feature.unit.entity;
 
+import com.czareg.battlefield.feature.common.entity.Position;
+import com.czareg.battlefield.feature.common.enums.Color;
+import com.czareg.battlefield.feature.common.enums.Status;
+import com.czareg.battlefield.feature.common.enums.UnitType;
 import com.czareg.battlefield.feature.game.dto.response.UnitDTO;
 import com.czareg.battlefield.feature.game.entity.Game;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,7 +47,7 @@ public class Unit {
     public UnitDTO toDTO() {
         return UnitDTO.builder()
                 .id(id)
-                .position(position)
+                .position(position.toDTO())
                 .type(type)
                 .color(color)
                 .status(status)

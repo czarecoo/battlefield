@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.game.entity;
 
+import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.dto.response.GameDTO;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import jakarta.persistence.*;
@@ -28,7 +29,7 @@ public class Game {
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Unit> units;
 
-    private Instant started;
+    private Instant createdAt;
 
     public GameDTO toDTO() {
         return GameDTO.builder()
@@ -37,7 +38,7 @@ public class Game {
                 .units(units.stream()
                         .map(Unit::toDTO)
                         .toList())
-                .started(started)
+                .createdAt(createdAt)
                 .build();
     }
 }

@@ -17,5 +17,5 @@ public class GameDTO {
     private Long id;
     private BoardDTO board;
     private List<UnitDTO> units;
-    private Instant started;
+    private Instant createdAt;
 }

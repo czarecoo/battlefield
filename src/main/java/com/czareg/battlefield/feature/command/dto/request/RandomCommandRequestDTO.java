@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.game.dto.request;
+package com.czareg.battlefield.feature.command.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Value;

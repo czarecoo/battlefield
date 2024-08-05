@@ -2,17 +2,17 @@ package com.czareg.battlefield.feature.command;
 
 import com.czareg.battlefield.config.advice.exceptions.CommandException;
 import com.czareg.battlefield.config.advice.exceptions.CooldownException;
+import com.czareg.battlefield.feature.command.dto.request.RandomCommandRequestDTO;
+import com.czareg.battlefield.feature.command.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.command.entity.Command;
-import com.czareg.battlefield.feature.command.entity.CommandType;
 import com.czareg.battlefield.feature.command.order.Order;
 import com.czareg.battlefield.feature.command.order.OrderChooser;
 import com.czareg.battlefield.feature.command.order.OrderContext;
+import com.czareg.battlefield.feature.common.enums.CommandType;
+import com.czareg.battlefield.feature.common.enums.UnitType;
 import com.czareg.battlefield.feature.game.GameService;
-import com.czareg.battlefield.feature.game.dto.request.RandomCommandRequestDTO;
-import com.czareg.battlefield.feature.game.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Unit;
-import com.czareg.battlefield.feature.unit.entity.UnitType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
-import static com.czareg.battlefield.feature.unit.entity.Status.ACTIVE;
+import static com.czareg.battlefield.feature.common.enums.Status.ACTIVE;
 import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
 
 @Slf4j
@@ -78,10 +78,10 @@ public class CommandService {
 
     private void checkCooldown(Long unitId) {
         commandRepository.findFirstByUnitIdOrderByIdDesc(unitId).ifPresent(lastCommand -> {
-            Instant cooldownFinishingTime = lastCommand.getCooldownFinishingTime();
+            Instant cooldownFinishingAt = lastCommand.getCooldownFinishingAt();
             Instant now = Instant.now();
-            if (now.isBefore(cooldownFinishingTime)) {
-                throw new CooldownException(Duration.between(now, cooldownFinishingTime));
+            if (now.isBefore(cooldownFinishingAt)) {
+                throw new CooldownException(Duration.between(now, cooldownFinishingAt));
             }
         });
     }

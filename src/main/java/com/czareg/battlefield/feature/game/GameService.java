@@ -1,11 +1,11 @@
 package com.czareg.battlefield.feature.game;
 
+import com.czareg.battlefield.feature.common.enums.Color;
 import com.czareg.battlefield.feature.game.components.GameFactory;
 import com.czareg.battlefield.feature.game.components.GamePrinter;
 import com.czareg.battlefield.feature.game.dto.response.GameDTO;
 import com.czareg.battlefield.feature.game.dto.response.UnitDTO;
 import com.czareg.battlefield.feature.game.entity.Game;
-import com.czareg.battlefield.feature.unit.entity.Color;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +25,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GamePrinter gamePrinter;
 
+    @Transactional(isolation = REPEATABLE_READ)
     public void createGame() {
         gameFactory.createGame();
     }
