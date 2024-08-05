@@ -28,8 +28,8 @@ public class CannonShootOrder extends Order {
     private final CooldownConfig cooldownConfig;
     private final TargetPositionCalculator targetPositionCalculator;
 
-    public Command execute(OrderContext context) {
-        List<CommandDetailsDTO> details = context.getDetails();
+    @Override
+    protected void validateDetails(List<CommandDetailsDTO> details) {
         if (details.isEmpty() || details.size() > 2) {
             throw new CommandException("Command requires one or two details");
         }
@@ -44,10 +44,13 @@ public class CannonShootOrder extends Order {
                 throw new CommandException("Two details cannot have opposing directions");
             }
         }
+    }
 
+    @Override
+    protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
         Position currentPosition = unit.getPosition();
-        Position target = targetPositionCalculator.calculate(currentPosition, details);
+        Position target = targetPositionCalculator.calculate(currentPosition, context.getDetails());
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 

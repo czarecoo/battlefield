@@ -1,6 +1,7 @@
 package com.czareg.battlefield.feature.command.order;
 
 import com.czareg.battlefield.config.advice.exceptions.CommandException;
+import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
 import com.czareg.battlefield.feature.command.entity.Command;
 import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.common.entity.Position;
@@ -8,10 +9,18 @@ import com.czareg.battlefield.feature.common.enums.CommandType;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 
 import java.time.Instant;
+import java.util.List;
 
 public abstract class Order {
 
-    public abstract Command execute(OrderContext context);
+    public Command execute(OrderContext context) {
+        validateDetails(context.getDetails());
+        return doExecute(context);
+    }
+
+    protected abstract void validateDetails(List<CommandDetailsDTO> details);
+
+    protected abstract Command doExecute(OrderContext context);
 
     protected Command createCommand(Position currentPosition, Position target, Unit unit, int cooldownInMillis, CommandType commandType) {
         Instant now = Instant.now();

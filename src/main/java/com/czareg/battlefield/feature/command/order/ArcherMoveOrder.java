@@ -23,8 +23,8 @@ public class ArcherMoveOrder extends Order {
     private final CooldownConfig cooldownConfig;
     private final TargetPositionCalculator targetPositionCalculator;
 
-    public Command execute(OrderContext context) {
-        List<CommandDetailsDTO> details = context.getDetails();
+    @Override
+    protected void validateDetails(List<CommandDetailsDTO> details) {
         if (details.size() != 1) {
             throw new CommandException("Command requires one detail");
         }
@@ -33,10 +33,13 @@ public class ArcherMoveOrder extends Order {
         if (squares != 1) {
             throw new CommandException("Command is limited to 1 square");
         }
+    }
 
+    @Override
+    protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
         Position currentPosition = unit.getPosition();
-        Position target = targetPositionCalculator.calculate(currentPosition, details);
+        Position target = targetPositionCalculator.calculate(currentPosition, context.getDetails());
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 

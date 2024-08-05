@@ -26,8 +26,8 @@ public class TransportMoveOrder extends Order {
     private final CooldownConfig cooldownConfig;
     private final PathCalculator pathCalculator;
 
-    public Command execute(OrderContext context) {
-        List<CommandDetailsDTO> details = context.getDetails();
+    @Override
+    protected void validateDetails(List<CommandDetailsDTO> details) {
         if (details.size() != 1) {
             throw new CommandException("Command requires one detail");
         }
@@ -36,10 +36,13 @@ public class TransportMoveOrder extends Order {
         if (squares < 1 || squares > 3) {
             throw new CommandException("Command requires one, two or three squares");
         }
+    }
 
+    @Override
+    protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
         Position currentPosition = unit.getPosition();
-        List<Position> targets = pathCalculator.calculate(currentPosition, detail);
+        List<Position> targets = pathCalculator.calculate(currentPosition, context.getDetails().getFirst());
 
         Position target = processTargetsAndReturnLastValid(targets, unit);
 
