@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.czareg.battlefield.feature.command.entity.CommandType.MOVE;
@@ -53,7 +54,7 @@ public class TransportMoveOrder extends Order {
 
         Position lastTarget = processTargetsAndReturnLastValid(targets, unit);
 
-        if (!currentPosition.equals(lastTarget)) {
+        if (!Objects.equals(currentPosition, lastTarget)) {
             unit.setPosition(lastTarget);
         }
 

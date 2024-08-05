@@ -8,6 +8,7 @@ import com.czareg.battlefield.feature.game.entity.Game;
 import com.czareg.battlefield.feature.unit.entity.Color;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +50,10 @@ public class GameService {
 
     public boolean isGameRepositoryEmpty() {
         return gameRepository.count() == 0;
+    }
+
+    public Long getCurrentGameId() {
+        List<Long> topId = gameRepository.findTopId(PageRequest.of(0, 1));
+        return topId.getFirst();
     }
 }
