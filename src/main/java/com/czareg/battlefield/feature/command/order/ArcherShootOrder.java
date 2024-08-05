@@ -44,13 +44,17 @@ public class ArcherShootOrder extends Order {
         if (squares <= 0) {
             throw new CommandException("Command required at last 1 square");
         }
-        Board board = unit.getGame().getBoard();
+
         Position currentPosition = unit.getPosition();
         Position target = currentPosition.calculateTarget(direction, squares);
+
+        Board board = unit.getGame().getBoard();
         if (board.isInvalid(target)) {
             throw new CommandException("Target: %s is out of bounds (1 <= x <= %d) && (1 <= y <= %d)".formatted(target, board.getWidth(), board.getHeight()));
         }
+
         checkCooldown(unit);
+
         unitService.findByPosition(target).ifPresent(targetUnit -> {
             Color targetColor = targetUnit.getColor();
             if (targetColor == unit.getColor()) {

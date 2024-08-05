@@ -28,8 +28,8 @@ public class GlobalControllerAdvice {
                 HttpStatus.CONFLICT.getReasonPhrase(),
                 request.getDescription(false),
                 List.of(),
-                "The unit was updated by another transaction. Please try again.",
-                UUID.randomUUID().toString()
+                "The unit was updated by another player. Please try again.",
+                null
         );
     }
 
@@ -42,7 +42,7 @@ public class GlobalControllerAdvice {
                 request.getDescription(false),
                 List.of(),
                 ex.getMessage(),
-                UUID.randomUUID().toString()
+                null
         );
     }
 
@@ -55,7 +55,7 @@ public class GlobalControllerAdvice {
                 request.getDescription(false),
                 List.of(),
                 ex.getMessage(),
-                UUID.randomUUID().toString()
+                null
         );
     }
 
@@ -75,7 +75,7 @@ public class GlobalControllerAdvice {
                 request.getDescription(false),
                 errors,
                 "Validation failed",
-                UUID.randomUUID().toString()
+                null
         );
     }
 

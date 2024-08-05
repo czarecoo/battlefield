@@ -42,17 +42,22 @@ public class ArcherMoveOrder extends Order {
         if (squares != 1) {
             throw new CommandException("Command is limited to 1 square");
         }
-        Board board = unit.getGame().getBoard();
+
         Position currentPosition = unit.getPosition();
         Position target = currentPosition.calculateTarget(direction, squares);
+
+        Board board = unit.getGame().getBoard();
         if (board.isInvalid(target)) {
             throw new CommandException("Target: %s is out of bounds (1 <= x <= %d) && (1 <= y <= %d)".formatted(target, board.getWidth(), board.getHeight()));
         }
+
         checkCooldown(unit);
+
         if (unitService.isPositionOccupied(target)) {
             throw new CommandException("Target: %s is occupied".formatted(target));
         }
         unit.setPosition(target);
+
         Command command = prepareCommand(currentPosition, target, unit);
         commandRepository.save(command);
     }
