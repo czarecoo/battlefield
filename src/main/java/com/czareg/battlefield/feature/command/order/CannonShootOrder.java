@@ -2,21 +2,17 @@ package com.czareg.battlefield.feature.command.order;
 
 import com.czareg.battlefield.config.CooldownConfig;
 import com.czareg.battlefield.config.advice.exceptions.CommandException;
-import com.czareg.battlefield.config.advice.exceptions.CooldownException;
-import com.czareg.battlefield.feature.command.CommandRepository;
 import com.czareg.battlefield.feature.command.entity.Command;
 import com.czareg.battlefield.feature.game.dto.request.CommandDetailsDTO;
 import com.czareg.battlefield.feature.game.dto.request.Direction;
 import com.czareg.battlefield.feature.game.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.game.entity.Board;
 import com.czareg.battlefield.feature.unit.UnitService;
-import com.czareg.battlefield.feature.unit.entity.Color;
 import com.czareg.battlefield.feature.unit.entity.Position;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
@@ -31,11 +27,9 @@ import static com.czareg.battlefield.feature.unit.entity.Status.DESTROYED;
 public class CannonShootOrder extends Order {
 
     private final UnitService unitService;
-    private final CommandRepository commandRepository;
     private final CooldownConfig cooldownConfig;
 
-    public void execute(OrderContext context) {
-        Unit unit = context.getUnit();
+    public Command execute(OrderContext context) {
         SpecificCommandRequestDTO specificCommandDTO = context.getSpecificCommandDTO();
         List<CommandDetailsDTO> details = specificCommandDTO.getDetails();
         if (details.isEmpty() || details.size() > 2) {
@@ -53,6 +47,7 @@ public class CannonShootOrder extends Order {
             }
         }
 
+        Unit unit = context.getUnit();
         Position currentPosition = unit.getPosition();
         Position target = calculateTarget(currentPosition, details);
 
@@ -61,21 +56,9 @@ public class CannonShootOrder extends Order {
             throw new CommandException("Target: %s is out of bounds (1 <= x <= %d) && (1 <= y <= %d)".formatted(target, board.getWidth(), board.getHeight()));
         }
 
-        checkCooldown(unit);
+        unitService.findActiveByPosition(target).ifPresent(targetUnit -> targetUnit.setStatus(DESTROYED));
 
-        unitService.findByPosition(target).ifPresent(targetUnit -> {
-            Color targetColor = targetUnit.getColor();
-            if (targetColor == unit.getColor()) {
-                throw new CommandException("Target: %s is occupied by friendly unit. Cannot shoot");
-            }
-            if (targetUnit.getStatus() == DESTROYED) {
-                return;
-            }
-            targetUnit.setStatus(DESTROYED);
-        });
-
-        Command command = prepareCommand(currentPosition, target, unit);
-        commandRepository.save(command);
+        return prepareCommand(currentPosition, target, unit);
     }
 
     private Position calculateTarget(Position currentPosition, List<CommandDetailsDTO> details) {
@@ -86,16 +69,6 @@ public class CannonShootOrder extends Order {
             target = target.calculateTarget(direction, squares);
         }
         return target;
-    }
-
-    private void checkCooldown(Unit unit) {
-        commandRepository.findFirstByUnitIdOrderByIdDesc(unit.getId()).ifPresent(lastCommand -> {
-            Instant cooldownFinishingTime = lastCommand.getCooldownFinishingTime();
-            Instant now = Instant.now();
-            if (now.isBefore(cooldownFinishingTime)) {
-                throw new CooldownException(Duration.between(now, cooldownFinishingTime));
-            }
-        });
     }
 
     private Command prepareCommand(Position currentPosition, Position target, Unit unit) {

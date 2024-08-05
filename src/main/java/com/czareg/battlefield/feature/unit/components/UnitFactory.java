@@ -2,7 +2,7 @@ package com.czareg.battlefield.feature.unit.components;
 
 import com.czareg.battlefield.config.NewGameConfig;
 import com.czareg.battlefield.feature.game.entity.Game;
-import com.czareg.battlefield.feature.unit.UnitRepository;
+import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Color;
 import com.czareg.battlefield.feature.unit.entity.Position;
 import com.czareg.battlefield.feature.unit.entity.Unit;
@@ -25,7 +25,7 @@ public class UnitFactory {
 
     private final NewGameConfig newGameConfig;
     private final PositionFactory positionFactory;
-    private final UnitRepository unitRepository;
+    private final UnitService unitService;
 
     public List<Unit> createUnits(Game game) {
         Map<Color, List<Position>> colorPositions = positionFactory.createAvailable();
@@ -48,7 +48,7 @@ public class UnitFactory {
             units.add(createUnit(TRANSPORT, BLACK, availableBlackPositions.removeFirst()));
         }
         units.forEach(unit -> unit.setGame(game));
-        unitRepository.saveAll(units);
+        unitService.saveAll(units);
         return units;
     }
 
