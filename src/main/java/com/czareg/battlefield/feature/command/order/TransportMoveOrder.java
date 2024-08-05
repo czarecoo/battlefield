@@ -57,6 +57,7 @@ public class TransportMoveOrder extends Order {
         Position lastValidTarget = unit.getPosition();
         for (Position target : targets) {
             validateTargetInBounds(target, unit.getGame().getBoard());
+
             Optional<Unit> targetUnitOptional = unitService.findActiveByPosition(target);
             if (targetUnitOptional.isPresent()) {
                 Unit targetUnit = targetUnitOptional.get();
