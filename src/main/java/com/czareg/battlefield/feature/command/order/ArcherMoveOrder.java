@@ -38,8 +38,8 @@ public class ArcherMoveOrder extends Order {
     @Override
     protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
-        Position currentPosition = unit.getPosition();
-        Position target = targetPositionCalculator.calculate(currentPosition, context.getDetails());
+        Position current = unit.getPosition();
+        Position target = targetPositionCalculator.calculate(current, context.getDetails());
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 
@@ -48,7 +48,7 @@ public class ArcherMoveOrder extends Order {
         }
         unit.setPosition(target);
 
-        return createCommand(currentPosition, target, unit, cooldownConfig.getArcherMove(), MOVE);
+        return createCommand(current, target, unit, cooldownConfig.getArcherMove(), MOVE);
     }
 }
 

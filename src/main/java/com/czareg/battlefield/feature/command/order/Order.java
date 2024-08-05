@@ -22,14 +22,14 @@ public abstract class Order {
 
     protected abstract Command doExecute(OrderContext context);
 
-    protected Command createCommand(Position currentPosition, Position target, Unit unit, int cooldownInMillis, CommandType commandType) {
+    protected Command createCommand(Position current, Position target, Unit unit, int cooldownInMillis, CommandType commandType) {
         Instant now = Instant.now();
         Command command = new Command();
         command.setUnit(unit);
         command.setCreatedAt(now);
         command.setCooldownFinishingAt(now.plusMillis(cooldownInMillis));
         command.setType(commandType);
-        command.setBefore(currentPosition);
+        command.setBefore(current);
         command.setTarget(target);
         return command;
     }

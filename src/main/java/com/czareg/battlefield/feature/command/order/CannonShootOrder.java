@@ -49,13 +49,13 @@ public class CannonShootOrder extends Order {
     @Override
     protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
-        Position currentPosition = unit.getPosition();
-        Position target = targetPositionCalculator.calculate(currentPosition, context.getDetails());
+        Position current = unit.getPosition();
+        Position target = targetPositionCalculator.calculate(current, context.getDetails());
 
         validateTargetInBounds(target, unit.getGame().getBoard());
 
         unitService.findActiveByPosition(target).ifPresent(targetUnit -> targetUnit.setStatus(DESTROYED));
 
-        return createCommand(currentPosition, target, unit, cooldownConfig.getCannonShot(), SHOOT);
+        return createCommand(current, target, unit, cooldownConfig.getCannonShot(), SHOOT);
     }
 }

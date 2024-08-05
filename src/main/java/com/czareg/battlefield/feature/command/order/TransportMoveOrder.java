@@ -41,16 +41,16 @@ public class TransportMoveOrder extends Order {
     @Override
     protected Command doExecute(OrderContext context) {
         Unit unit = context.getUnit();
-        Position currentPosition = unit.getPosition();
-        List<Position> targets = pathCalculator.calculate(currentPosition, context.getDetails().getFirst());
+        Position current = unit.getPosition();
+        List<Position> targets = pathCalculator.calculate(current, context.getDetails().getFirst());
 
         Position target = processTargetsAndReturnLastValid(targets, unit);
 
-        if (!Objects.equals(currentPosition, target)) {
+        if (!Objects.equals(current, target)) {
             unit.setPosition(target);
         }
 
-        return createCommand(currentPosition, target, unit, cooldownConfig.getTransportMove(), MOVE);
+        return createCommand(current, target, unit, cooldownConfig.getTransportMove(), MOVE);
     }
 
     private Position processTargetsAndReturnLastValid(List<Position> targets, Unit unit) {
