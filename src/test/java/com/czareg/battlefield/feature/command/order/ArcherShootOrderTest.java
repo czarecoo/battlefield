@@ -18,15 +18,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.czareg.battlefield.feature.common.enums.CommandType.MOVE;
-import static com.czareg.battlefield.feature.common.enums.Direction.RIGHT;
-import static com.czareg.battlefield.feature.common.enums.Direction.UP;
+import static com.czareg.battlefield.feature.common.enums.CommandType.SHOOT;
+import static com.czareg.battlefield.feature.common.enums.Status.DESTROYED;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ArcherMoveOrderTest {
+class ArcherShootOrderTest {
 
     @Mock
     private UnitService unitService;
@@ -38,34 +38,34 @@ class ArcherMoveOrderTest {
     private TargetPositionCalculator targetPositionCalculator;
 
     @InjectMocks
-    private ArcherMoveOrder archerMoveOrder;
+    private ArcherShootOrder archerShootOrder;
 
     @Test
     void shouldThrowCommandExceptionWhenDetailsSizeIsNotOne() {
         List<CommandDetailsDTO> details = List.of(
-                new CommandDetailsDTO(UP, 1),
-                new CommandDetailsDTO(RIGHT, 1)
+                new CommandDetailsDTO(Direction.UP, 1),
+                new CommandDetailsDTO(Direction.RIGHT, 1)
         );
 
-        assertThrows(CommandException.class, () -> archerMoveOrder.validateDetails(details));
+        assertThrows(CommandException.class, () -> archerShootOrder.validateDetails(details));
     }
 
     @Test
-    void shouldThrowCommandExceptionWhenSquaresIsNotOne() {
+    void shouldThrowCommandExceptionWhenSquaresIsZero() {
         List<CommandDetailsDTO> details = List.of(
-                new CommandDetailsDTO(UP, 2)
+                new CommandDetailsDTO(Direction.UP, 0)
         );
 
-        assertThrows(CommandException.class, () -> archerMoveOrder.validateDetails(details));
+        assertThrows(CommandException.class, () -> archerShootOrder.validateDetails(details));
     }
 
     @Test
     void shouldNotThrowExceptionWhenDetailsAreValid() {
         List<CommandDetailsDTO> details = List.of(
-                new CommandDetailsDTO(UP, 1)
+                new CommandDetailsDTO(Direction.UP, 1)
         );
 
-        assertDoesNotThrow(() -> archerMoveOrder.validateDetails(details));
+        assertDoesNotThrow(() -> archerShootOrder.validateDetails(details));
     }
 
     @Test
@@ -73,38 +73,20 @@ class ArcherMoveOrderTest {
         Board board = new Board(5, 5);
         Game game = new Game();
         game.setBoard(board);
-        Unit unit = new Unit();
+        Unit unit = mock(Unit.class);
         Position currentPosition = new Position(2, 2);
-        unit.setPosition(currentPosition);
-        unit.setGame(game);
-        List<CommandDetailsDTO> details = List.of(new CommandDetailsDTO(UP, 1));
+        when(unit.getPosition()).thenReturn(currentPosition);
+        when(unit.getGame()).thenReturn(game);
+        List<CommandDetailsDTO> details = List.of(new CommandDetailsDTO(Direction.UP, 1));
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(6, 6);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
 
-        assertThrows(CommandException.class, () -> archerMoveOrder.doExecute(context));
+        assertThrows(CommandException.class, () -> archerShootOrder.doExecute(context));
     }
 
     @Test
-    void shouldThrowCommandExceptionWhenTargetIsOccupied() {
-        Board board = new Board(5, 5);
-        Game game = new Game();
-        game.setBoard(board);
-        Unit unit = new Unit();
-        Position currentPosition = new Position(2, 2);
-        unit.setPosition(currentPosition);
-        unit.setGame(game);
-        List<CommandDetailsDTO> details = List.of(new CommandDetailsDTO(Direction.RIGHT, 1));
-        OrderContext context = new OrderContext(unit, details);
-        Position targetPosition = new Position(3, 2);
-        when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.existsActiveByPosition(targetPosition)).thenReturn(true);
-
-        assertThrows(CommandException.class, () -> archerMoveOrder.doExecute(context));
-    }
-
-    @Test
-    void shouldReturnCommandWhenExecutionIsSuccessful() {
+    void shouldDestroyTargetUnitWhenFound() {
         Board board = new Board(5, 5);
         Game game = new Game();
         game.setBoard(board);
@@ -116,18 +98,47 @@ class ArcherMoveOrderTest {
         OrderContext context = new OrderContext(unit, details);
         Position targetPosition = new Position(3, 2);
         when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
-        when(unitService.existsActiveByPosition(targetPosition)).thenReturn(false);
-        when(cooldownConfig.getArcherMove()).thenReturn(1000);
+        Unit targetUnit = mock(Unit.class);
+        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.of(targetUnit));
+        when(cooldownConfig.getArcherShot()).thenReturn(1000);
 
-        Command command = archerMoveOrder.doExecute(context);
+        Command command = archerShootOrder.doExecute(context);
 
         assertNotNull(command);
         assertEquals(unit, command.getUnit());
         assertEquals(currentPosition, command.getBefore());
         assertEquals(targetPosition, command.getTarget());
-        assertEquals(MOVE, command.getType());
+        assertEquals(SHOOT, command.getType());
         assertEquals(1000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
-        verify(unitService, times(1)).existsActiveByPosition(targetPosition);
-        verify(unit, times(1)).setPosition(targetPosition);
+        verify(targetUnit, times(1)).setStatus(DESTROYED);
+        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+    }
+
+    @Test
+    void shouldReturnCommandWhenTargetUnitNotFound() {
+        Board board = new Board(5, 5);
+        Game game = new Game();
+        game.setBoard(board);
+        Unit unit = mock(Unit.class);
+        Position currentPosition = new Position(2, 2);
+        when(unit.getPosition()).thenReturn(currentPosition);
+        when(unit.getGame()).thenReturn(game);
+        List<CommandDetailsDTO> details = List.of(new CommandDetailsDTO(Direction.RIGHT, 1));
+        OrderContext context = new OrderContext(unit, details);
+        Position targetPosition = new Position(3, 2);
+        when(targetPositionCalculator.calculate(currentPosition, context.getDetails())).thenReturn(targetPosition);
+        when(unitService.findActiveByPosition(targetPosition)).thenReturn(Optional.empty());
+        when(cooldownConfig.getArcherShot()).thenReturn(12000);
+
+        Command command = archerShootOrder.doExecute(context);
+
+        assertNotNull(command);
+        assertEquals(unit, command.getUnit());
+        assertEquals(currentPosition, command.getBefore());
+        assertEquals(targetPosition, command.getTarget());
+        assertEquals(SHOOT, command.getType());
+        assertEquals(12000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
+        verify(unitService, times(1)).findActiveByPosition(targetPosition);
+        verify(unit, never()).setPosition(targetPosition);
     }
 }
