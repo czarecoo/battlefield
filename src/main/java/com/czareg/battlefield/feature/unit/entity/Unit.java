@@ -36,7 +36,7 @@ public class Unit {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id")
     @JsonIgnore
     private Game game;
