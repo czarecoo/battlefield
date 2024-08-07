@@ -1,6 +1,6 @@
-package com.czareg.battlefield.feature.command.order.utils;
+package com.czareg.battlefield.feature.common.battle.utils;
 
-import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
+import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
 import com.czareg.battlefield.feature.common.entity.Position;
 import com.czareg.battlefield.feature.common.enums.Direction;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class PathCalculator {
 
-    public List<Position> calculate(Position currentPosition, CommandDetailsDTO detail) {
+    public List<Position> calculate(Position currentPosition, CommandDetails detail) {
         List<Position> positions = new ArrayList<>();
         Direction direction = detail.getDirection();
         int squares = detail.getSquares();

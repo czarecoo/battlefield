@@ -47,4 +47,16 @@ public class Command {
     })
     @Embedded
     private Position target;
+
+    public static Command of(Position current, Position target, Unit unit, int cooldownInMillis, CommandType commandType) {
+        Instant now = Instant.now();
+        Command command = new Command();
+        command.setUnit(unit);
+        command.setCreatedAt(now);
+        command.setCooldownFinishingAt(now.plusMillis(cooldownInMillis));
+        command.setType(commandType);
+        command.setBefore(current);
+        command.setTarget(target);
+        return command;
+    }
 }

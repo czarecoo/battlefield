@@ -1,6 +1,7 @@
 package com.czareg.battlefield.feature.command.order.utils;
 
-import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
+import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
+import com.czareg.battlefield.feature.common.battle.utils.TargetPositionCalculator;
 import com.czareg.battlefield.feature.common.entity.Position;
 import com.czareg.battlefield.feature.common.enums.Direction;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,8 @@ class TargetPositionCalculatorTest {
     void shouldReturnTargetPositionWhenMovingRightForTwoSquares() {
         TargetPositionCalculator targetPositionCalculator = new TargetPositionCalculator();
         Position startPosition = new Position(0, 0);
-        List<CommandDetailsDTO> commands = List.of(
-                new CommandDetailsDTO(RIGHT, 2)
+        List<CommandDetails> commands = List.of(
+                new CommandDetails(RIGHT, 2)
         );
 
         Position targetPosition = targetPositionCalculator.calculate(startPosition, commands);
@@ -29,9 +30,9 @@ class TargetPositionCalculatorTest {
     void shouldReturnTargetPositionWhenMovingInTwoDirections() {
         TargetPositionCalculator targetPositionCalculator = new TargetPositionCalculator();
         Position startPosition = new Position(3, 5);
-        List<CommandDetailsDTO> commands = List.of(
-                new CommandDetailsDTO(Direction.LEFT, 2),
-                new CommandDetailsDTO(Direction.DOWN, 3)
+        List<CommandDetails> commands = List.of(
+                new CommandDetails(Direction.LEFT, 2),
+                new CommandDetails(Direction.DOWN, 3)
         );
 
         Position targetPosition = targetPositionCalculator.calculate(startPosition, commands);

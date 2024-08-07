@@ -5,11 +5,11 @@ import com.czareg.battlefield.config.advice.exceptions.CooldownException;
 import com.czareg.battlefield.feature.command.dto.request.RandomCommandRequestDTO;
 import com.czareg.battlefield.feature.command.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.command.entity.Command;
-import com.czareg.battlefield.feature.command.order.Order;
-import com.czareg.battlefield.feature.command.order.OrderChooser;
-import com.czareg.battlefield.feature.command.order.OrderContext;
-import com.czareg.battlefield.feature.common.enums.CommandType;
-import com.czareg.battlefield.feature.common.enums.UnitType;
+import com.czareg.battlefield.feature.common.battle.BattleCommandMatcher;
+import com.czareg.battlefield.feature.common.battle.RandomSpecificCommandGenerator;
+import com.czareg.battlefield.feature.common.battle.command.BattleCommand;
+import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
+import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.game.GameService;
 import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Unit;
@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.czareg.battlefield.feature.common.enums.Status.ACTIVE;
 import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
@@ -30,33 +32,48 @@ import static org.springframework.transaction.annotation.Isolation.REPEATABLE_RE
 @RequiredArgsConstructor
 public class CommandService {
 
-    private final OrderChooser orderChooser;
     private final UnitService unitService;
     private final CommandRepository commandRepository;
     private final GameService gameService;
+    private final RandomSpecificCommandGenerator randomSpecificCommandGenerator;
+    private final BattleCommandMatcher battleCommandMatcher;
 
     @Transactional(isolation = REPEATABLE_READ)
     public void executeSpecificCommand(SpecificCommandRequestDTO specificCommandDTO) {
-        Long unitId = specificCommandDTO.getUnitId();
-        Unit unit = unitService.findById(unitId)
-                .orElseThrow(() -> new CommandException("Unknown unit id: %s".formatted(unitId)));
-        checkIfUnitIsActive(unit);
-        checkIfUnitBelongsToCurrentGame(unit);
-        checkCooldown(unitId);
-
-        CommandType commandType = specificCommandDTO.getCommand();
-        UnitType unitType = unit.getType();
-        Order order = orderChooser.choose(unitType, commandType);
-
-        OrderContext orderContext = new OrderContext(unit, specificCommandDTO.getDetails());
-        Command command = order.execute(orderContext);
-
+        Unit unit = findAndValidateUnit(specificCommandDTO.getUnitId());
+        List<CommandDetails> commandDetails = specificCommandDTO.getDetails()
+                .stream()
+                .map(dto -> new CommandDetails(dto.getDirection(), dto.getSquares()))
+                .toList();
+        SpecificCommand specificCommand = new SpecificCommand(unit, specificCommandDTO.getCommand(), commandDetails);
+        BattleCommand battleCommand = battleCommandMatcher.match(specificCommand);
+        Command command = battleCommand.validateAndExecuteOrThrow(specificCommand);
         commandRepository.save(command);
     }
 
     @Transactional(isolation = REPEATABLE_READ)
     public void executeRandomCommand(RandomCommandRequestDTO randomCommandDTO) {
-        //not implemented yet
+        Unit unit = findAndValidateUnit(randomCommandDTO.getUnitId());
+
+        List<SpecificCommand> specificCommands = randomSpecificCommandGenerator.generateAll(unit);
+        Command command = specificCommands.stream()
+                .map(specificCommand -> {
+                    BattleCommand battleCommand = battleCommandMatcher.match(specificCommand);
+                    return battleCommand.tryToValidateAndExecute(specificCommand);
+                })
+                .flatMap(Optional::stream)
+                .findFirst()
+                .orElseThrow(() -> new CommandException("There are no commands available for this unit"));
+        commandRepository.save(command);
+    }
+
+    private Unit findAndValidateUnit(Long unitId) {
+        Unit unit = unitService.findById(unitId)
+                .orElseThrow(() -> new CommandException("Unknown unit id: %s".formatted(unitId)));
+        checkIfUnitIsActive(unit);
+        checkIfUnitBelongsToCurrentGame(unit);
+        checkCooldown(unitId);
+        return unit;
     }
 
     private static void checkIfUnitIsActive(Unit unit) {

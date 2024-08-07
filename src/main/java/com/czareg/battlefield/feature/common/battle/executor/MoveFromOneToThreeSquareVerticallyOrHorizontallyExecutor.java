@@ -1,12 +1,11 @@
-package com.czareg.battlefield.feature.command.order;
+package com.czareg.battlefield.feature.common.battle.executor;
 
 import com.czareg.battlefield.config.CooldownConfig;
-import com.czareg.battlefield.config.advice.exceptions.CommandException;
-import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
 import com.czareg.battlefield.feature.command.entity.Command;
-import com.czareg.battlefield.feature.command.order.utils.PathCalculator;
+import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
+import com.czareg.battlefield.feature.common.battle.utils.PathCalculator;
+import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.common.entity.Position;
-import com.czareg.battlefield.feature.game.entity.Game;
 import com.czareg.battlefield.feature.unit.UnitService;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
@@ -21,46 +20,37 @@ import static com.czareg.battlefield.feature.common.enums.Status.DESTROYED;
 
 @Component
 @RequiredArgsConstructor
-public class TransportMoveOrder extends Order {
+public class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor implements BattleCommandExecutor {
 
-    private final UnitService unitService;
     private final CooldownConfig cooldownConfig;
     private final PathCalculator pathCalculator;
+    private final UnitService unitService;
 
     @Override
-    protected void validateDetails(List<CommandDetailsDTO> details) {
-        if (details.size() != 1) {
-            throw new CommandException("Command requires one detail");
-        }
-        CommandDetailsDTO detail = details.getFirst();
-        int squares = detail.getSquares();
-        if (squares < 1 || squares > 3) {
-            throw new CommandException("Command requires one, two or three squares");
-        }
-    }
-
-    @Override
-    protected Command doExecute(OrderContext context) {
-        Unit unit = context.getUnit();
+    public ExecutionResult execute(SpecificCommand specificCommand) {
+        Unit unit = specificCommand.getUnit();
         Position current = unit.getPosition();
-        List<Position> targets = pathCalculator.calculate(current, context.getDetails().getFirst());
-
+        List<Position> targets = pathCalculator.calculate(current, specificCommand.getDetails().getFirst());
+        Board board = unit.getGame().getBoard();
+        Position lastTarget = targets.getLast();
+        if (board.isOutOfBounds(lastTarget)) {
+            String message = "Target: %s is out of bounds (1 <= x <= %d) && (1 <= y <= %d)".formatted(lastTarget, board.getWidth(), board.getHeight());
+            return new ExecutionResult.Failure(message);
+        }
         Position target = processTargetsAndReturnLastValid(targets, unit);
 
         if (!Objects.equals(current, target)) {
             unit.setPosition(target);
         }
 
-        return createCommand(current, target, unit, cooldownConfig.getTransportMove(), MOVE);
+        Command command = Command.of(current, target, unit, cooldownConfig.getTransportMove(), MOVE);
+        return new ExecutionResult.Success(command);
     }
 
     private Position processTargetsAndReturnLastValid(List<Position> targets, Unit unit) {
         Position lastValidTarget = unit.getPosition();
         for (Position target : targets) {
-            Game game = unit.getGame();
-            validateTargetInBounds(target, game.getBoard());
-
-            Optional<Unit> targetUnitOptional = unitService.findActiveByPositionAndGameId(target, game.getId());
+            Optional<Unit> targetUnitOptional = unitService.findActiveByPositionAndGameId(target, unit.getGame().getId());
             if (targetUnitOptional.isPresent()) {
                 Unit targetUnit = targetUnitOptional.get();
                 if (targetUnit.getColor() == unit.getColor()) {
