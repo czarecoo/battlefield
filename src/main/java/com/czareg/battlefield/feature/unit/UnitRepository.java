@@ -17,4 +17,7 @@ public interface UnitRepository extends JpaRepository<Unit, Long> {
 
     @Query("SELECT u FROM Unit u WHERE u.position = :position AND u.status = 'ACTIVE' AND u.game.id = :gameId")
     Optional<Unit> findActiveByPositionAndGameId(@Param("position") Position position, @Param("gameId") Long gameId);
+
+    @Query("SELECT COUNT(u) > 0 FROM Unit u WHERE u.id = :id AND u.status = 'ACTIVE'")
+    boolean isActiveById(@Param("id") Long id);
 }
