@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.common.battle.utils;
+package com.czareg.battlefield.feature.common.battle.executor.component;
 
 import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
 import com.czareg.battlefield.feature.common.entity.Position;

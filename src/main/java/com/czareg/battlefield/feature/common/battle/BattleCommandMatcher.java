@@ -1,6 +1,6 @@
 package com.czareg.battlefield.feature.common.battle;
 
-import com.czareg.battlefield.config.advice.exceptions.CommandException;
+import com.czareg.battlefield.config.advice.CommandException;
 import com.czareg.battlefield.feature.common.battle.command.BattleCommand;
 import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.common.battle.unit.BattleUnit;

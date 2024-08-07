@@ -1,6 +1,6 @@
-package com.czareg.battlefield.feature.command.components;
+package com.czareg.battlefield.feature.command.component;
 
-import com.czareg.battlefield.config.advice.exceptions.CooldownException;
+import com.czareg.battlefield.config.advice.CooldownException;
 import com.czareg.battlefield.feature.command.CommandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

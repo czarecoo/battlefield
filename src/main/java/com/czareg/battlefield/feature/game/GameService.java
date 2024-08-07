@@ -1,8 +1,8 @@
 package com.czareg.battlefield.feature.game;
 
 import com.czareg.battlefield.feature.common.enums.Color;
-import com.czareg.battlefield.feature.game.components.GameFactory;
-import com.czareg.battlefield.feature.game.components.GamePrinter;
+import com.czareg.battlefield.feature.game.component.GameFactory;
+import com.czareg.battlefield.feature.game.component.GamePrinter;
 import com.czareg.battlefield.feature.game.dto.response.GameDTO;
 import com.czareg.battlefield.feature.game.dto.response.UnitDTO;
 import com.czareg.battlefield.feature.game.entity.Game;

@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.game.components;
+package com.czareg.battlefield.feature.game.component;
 
 import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.entity.Game;

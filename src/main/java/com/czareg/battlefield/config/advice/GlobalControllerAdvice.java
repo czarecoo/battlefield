@@ -1,7 +1,5 @@
 package com.czareg.battlefield.config.advice;
 
-import com.czareg.battlefield.config.advice.exceptions.CommandException;
-import com.czareg.battlefield.config.advice.exceptions.CooldownException;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

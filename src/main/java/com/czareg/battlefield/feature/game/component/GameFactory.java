@@ -1,10 +1,10 @@
-package com.czareg.battlefield.feature.game.components;
+package com.czareg.battlefield.feature.game.component;
 
 import com.czareg.battlefield.config.NewGameConfig;
 import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.GameRepository;
 import com.czareg.battlefield.feature.game.entity.Game;
-import com.czareg.battlefield.feature.unit.components.UnitFactory;
+import com.czareg.battlefield.feature.unit.component.UnitFactory;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
