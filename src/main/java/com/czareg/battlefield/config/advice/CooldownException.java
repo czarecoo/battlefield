@@ -1,4 +1,4 @@
-package com.czareg.battlefield.config.advice.exceptions;
+package com.czareg.battlefield.config.advice;
 
 import java.time.Duration;
 

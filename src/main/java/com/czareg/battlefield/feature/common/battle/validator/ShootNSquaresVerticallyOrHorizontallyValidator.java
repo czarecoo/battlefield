@@ -1,6 +1,6 @@
 package com.czareg.battlefield.feature.common.battle.validator;
 
-import com.czareg.battlefield.config.advice.exceptions.CommandException;
+import com.czareg.battlefield.config.advice.CommandException;
 import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
 import org.springframework.stereotype.Component;
 

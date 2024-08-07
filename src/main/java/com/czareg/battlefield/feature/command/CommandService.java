@@ -1,7 +1,7 @@
 package com.czareg.battlefield.feature.command;
 
-import com.czareg.battlefield.config.advice.exceptions.CommandException;
-import com.czareg.battlefield.feature.command.components.CooldownChecker;
+import com.czareg.battlefield.config.advice.CommandException;
+import com.czareg.battlefield.feature.command.component.CooldownChecker;
 import com.czareg.battlefield.feature.command.dto.request.RandomCommandRequestDTO;
 import com.czareg.battlefield.feature.command.dto.request.SpecificCommandRequestDTO;
 import com.czareg.battlefield.feature.command.entity.Command;

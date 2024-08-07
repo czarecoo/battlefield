@@ -1,4 +1,4 @@
-package com.czareg.battlefield.feature.unit.components;
+package com.czareg.battlefield.feature.unit.component;
 
 import com.czareg.battlefield.config.NewGameConfig;
 import com.czareg.battlefield.feature.common.entity.Position;

@@ -1,4 +1,4 @@
-package com.czareg.battlefield.config.advice.exceptions;
+package com.czareg.battlefield.config.advice;
 
 public class CommandException extends RuntimeException{
 
