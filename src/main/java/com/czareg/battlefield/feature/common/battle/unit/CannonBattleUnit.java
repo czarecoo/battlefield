@@ -1,7 +1,7 @@
 package com.czareg.battlefield.feature.common.battle.unit;
 
 import com.czareg.battlefield.feature.common.battle.command.BattleCommand;
-import com.czareg.battlefield.feature.common.battle.command.ShootNSquaresVerticallyOrHorizontallyCommand;
+import com.czareg.battlefield.feature.common.battle.command.ShootNSquaresVerticallyAndNSquaresHorizontallyCommand;
 import com.czareg.battlefield.feature.common.enums.UnitType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import static com.czareg.battlefield.feature.common.enums.UnitType.CANNON;
 @RequiredArgsConstructor
 public class CannonBattleUnit implements BattleUnit {
 
-    private final ShootNSquaresVerticallyOrHorizontallyCommand moveCommand;
+    private final ShootNSquaresVerticallyAndNSquaresHorizontallyCommand moveCommand;
 
     @Override
     public UnitType getUnitType() {
