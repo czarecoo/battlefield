@@ -1,6 +1,7 @@
 package com.czareg.battlefield.feature.command.order.utils;
 
-import com.czareg.battlefield.feature.command.dto.request.CommandDetailsDTO;
+import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
+import com.czareg.battlefield.feature.common.battle.utils.PathCalculator;
 import com.czareg.battlefield.feature.common.entity.Position;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ class PathCalculatorTest {
     void shouldReturnListOfTwoPositionsWhenMovingRightForTwoSquares() {
         PathCalculator pathCalculator = new PathCalculator();
         Position startPosition = new Position(0, 0);
-        CommandDetailsDTO commandDetails = new CommandDetailsDTO(RIGHT, 2);
+        CommandDetails commandDetails = new CommandDetails(RIGHT, 2);
 
         List<Position> positions = pathCalculator.calculate(startPosition, commandDetails);
 
@@ -29,7 +30,7 @@ class PathCalculatorTest {
     void shouldReturnListOfThreePositionsWhenMovingUpForThreeSquares() {
         PathCalculator pathCalculator = new PathCalculator();
         Position startPosition = new Position(0, 0);
-        CommandDetailsDTO commandDetails = new CommandDetailsDTO(UP, 3);
+        CommandDetails commandDetails = new CommandDetails(UP, 3);
 
         List<Position> positions = pathCalculator.calculate(startPosition, commandDetails);
 
