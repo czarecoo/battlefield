@@ -14,6 +14,9 @@ public class ExistsByUnitIdValidator implements ConstraintValidator<ExistsByUnit
 
     @Override
     public boolean isValid(Long unitId, ConstraintValidatorContext cxt) {
+        if (unitId == null) {
+            return false;
+        }
         if (!unitService.existsById(unitId)) {
             cxt.disableDefaultConstraintViolation();
             String customMessage = String.format("Unit with id: %d does not exist", unitId);

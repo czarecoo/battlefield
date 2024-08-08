@@ -3,6 +3,7 @@ package com.czareg.battlefield.feature.command.dto.request;
 import com.czareg.battlefield.feature.command.validation.ExistsByUnitId;
 import com.czareg.battlefield.feature.command.validation.HasEnumValue;
 import com.czareg.battlefield.feature.command.validation.IsActive;
+import com.czareg.battlefield.feature.command.validation.IsFromCurrentGame;
 import com.czareg.battlefield.feature.common.enums.CommandType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -19,6 +20,7 @@ public class SpecificCommandRequestDTO {
     @Min(1)
     @ExistsByUnitId
     @IsActive
+    @IsFromCurrentGame
     Long unitId;
 
     @NotNull

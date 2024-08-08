@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class IsActiveValidator implements ConstraintValidator<IsActive, Long> {
+public class IsFromCurrentGameValidator implements ConstraintValidator<IsFromCurrentGame, Long> {
 
     private final UnitService unitService;
 
@@ -17,9 +17,9 @@ public class IsActiveValidator implements ConstraintValidator<IsActive, Long> {
         if (unitId == null) {
             return false;
         }
-        if (!unitService.isActiveById(unitId)) {
+        if (!unitService.isUnitInCurrentGame(unitId)) {
             cxt.disableDefaultConstraintViolation();
-            String customMessage = String.format("Unit with id: %d is not ACTIVE", unitId);
+            String customMessage = String.format("Unit with id: %d is not from current game", unitId);
             cxt.buildConstraintViolationWithTemplate(customMessage).addConstraintViolation();
             return false;
         }
