@@ -24,7 +24,7 @@ class BattleCommandMatcherIT {
     private BattleCommandMatcher battleCommandMatcher;
 
     @Test
-    void shouldReturnArcherMoveOrderWhenUnitIsArcherAndCommandIsMove() {
+    void shouldReturnMoveOneSquareVerticallyOrHorizontallyCommandWhenUnitIsArcherAndCommandIsMove() {
         Unit unit = new Unit();
         unit.setType(ARCHER);
         SpecificCommand specificCommand = new SpecificCommand(unit, MOVE, List.of());
@@ -35,7 +35,7 @@ class BattleCommandMatcherIT {
     }
 
     @Test
-    void shouldReturnTransportMoveOrderWhenUnitIsTransportAndCommandIsMove() {
+    void shouldReturnMoveFromOneToThreeSquareVerticallyOrHorizontallyCommandWhenUnitIsTransportAndCommandIsMove() {
         Unit unit = new Unit();
         unit.setType(TRANSPORT);
         SpecificCommand specificCommand = new SpecificCommand(unit, MOVE, List.of());
@@ -46,7 +46,7 @@ class BattleCommandMatcherIT {
     }
 
     @Test
-    void shouldReturnArcherShootOrderWhenUnitIsArcherAndCommandIsShoot() {
+    void shouldReturnShootNSquaresVerticallyOrHorizontallyCommandWhenUnitIsArcherAndCommandIsShoot() {
         Unit unit = new Unit();
         unit.setType(ARCHER);
         SpecificCommand specificCommand = new SpecificCommand(unit, SHOOT, List.of());
@@ -57,7 +57,7 @@ class BattleCommandMatcherIT {
     }
 
     @Test
-    void shouldReturnCannonShootOrderWhenUnitIsCannonAndCommandIsShoot() {
+    void shouldReturnShootNSquaresVerticallyAndNSquaresHorizontallyCommandWhenUnitIsCannonAndCommandIsShoot() {
         Unit unit = new Unit();
         unit.setType(CANNON);
         SpecificCommand specificCommand = new SpecificCommand(unit, SHOOT, List.of());

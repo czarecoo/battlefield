@@ -43,7 +43,27 @@ class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutorTest {
     private MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor executor;
 
     @Test
-    void shouldUpdateUnitPositionAndCreateCommandWhenExecutionIsSuccessful() {
+    void shouldReturnExecutionResultFailureWhenTargetOutOfBounds() {
+        Board board = new Board(5, 5);
+        Game game = new Game();
+        game.setBoard(board);
+        Unit unit = mock(Unit.class);
+        when(unit.getGame()).thenReturn(game);
+        Position currentPosition = new Position(2, 2);
+        when(unit.getPosition()).thenReturn(currentPosition);
+        Position targetPosition = new Position(6, 6);
+        when(pathCalculator.calculate(currentPosition, new CommandDetails(RIGHT, 1))).thenReturn(List.of(targetPosition));
+        SpecificCommand specificCommand = new SpecificCommand(unit, MOVE, List.of(new CommandDetails(RIGHT, 1)));
+
+        ExecutionResult executionResult = executor.execute(specificCommand);
+
+        assertInstanceOf(ExecutionResult.Failure.class, executionResult);
+        String message = ((ExecutionResult.Failure) executionResult).message();
+        assertNotNull(message);
+    }
+
+    @Test
+    void shouldReturnExecutionResultSuccessUpdateUnitPositionAndCreateCommandWhenExecutionIsSuccessful() {
         Board board = new Board(5, 5);
         Game game = new Game();
         game.setId(1L);
@@ -55,8 +75,8 @@ class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutorTest {
         Position targetPosition = new Position(3, 2);
         List<Position> targets = List.of(targetPosition);
         CommandDetails detail = new CommandDetails(RIGHT, 1);
-        when(cooldownConfig.getTransportMove()).thenReturn(500);
         when(pathCalculator.calculate(startPosition, detail)).thenReturn(targets);
+        when(cooldownConfig.getTransportMove()).thenReturn(500);
         SpecificCommand specificCommand = new SpecificCommand(unit, MOVE, List.of(detail));
         when(unitService.findActiveByPositionAndGameId(targetPosition, 1L)).thenReturn(Optional.empty());
 
@@ -74,7 +94,7 @@ class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutorTest {
     }
 
     @Test
-    void shouldDestroyOneEnemyUnitAndStopBecauseNextTargetIsFriendly() {
+    void shouldReturnExecutionResultSuccessDestroyOneEnemyUnitAndStopBecauseNextTargetIsFriendly() {
         Board board = new Board(5, 5);
         Game game = new Game();
         game.setId(2L);
@@ -94,7 +114,7 @@ class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutorTest {
         when(unitService.findActiveByPositionAndGameId(secondTargetPosition, 2L)).thenReturn(Optional.of(secondTarget));
         List<Position> positions = List.of(firstTargetPosition, secondTargetPosition);
         CommandDetails detail = new CommandDetails(RIGHT, 3);
-        when(cooldownConfig.getTransportMove()).thenReturn(5000);
+        when(cooldownConfig.getTransportMove()).thenReturn(500);
         when(pathCalculator.calculate(startPosition, detail)).thenReturn(positions);
         SpecificCommand specificCommand = new SpecificCommand(unit, MOVE, List.of(detail));
 
@@ -108,7 +128,7 @@ class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutorTest {
         assertEquals(startPosition, command.getBefore());
         assertEquals(firstTargetPosition, command.getTarget());
         assertEquals(MOVE, command.getType());
-        assertEquals(5000, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
+        assertEquals(500, command.getCooldownFinishingAt().toEpochMilli() - command.getCreatedAt().toEpochMilli());
         verify(firstTarget, times(1)).setStatus(DESTROYED);
         verify(secondTarget, never()).setStatus(DESTROYED);
     }
