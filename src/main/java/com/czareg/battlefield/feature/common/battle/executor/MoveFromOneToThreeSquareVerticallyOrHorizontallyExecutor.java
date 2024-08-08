@@ -3,6 +3,7 @@ package com.czareg.battlefield.feature.common.battle.executor;
 import com.czareg.battlefield.config.CooldownConfig;
 import com.czareg.battlefield.feature.command.entity.Command;
 import com.czareg.battlefield.feature.common.battle.executor.component.PathCalculator;
+import com.czareg.battlefield.feature.common.battle.executor.logging.BattleLogger;
 import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.common.entity.Position;
@@ -40,7 +41,10 @@ public class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor implements
         Position target = processTargetsAndReturnLastValid(targets, unit);
 
         if (!Objects.equals(current, target)) {
+            BattleLogger.logMoved(unit, target);
             unit.setPosition(target);
+        } else {
+            BattleLogger.logNotMoved(unit, lastTarget);
         }
 
         Command command = Command.of(current, target, unit, cooldownConfig.getTransportMove(), MOVE);
@@ -56,6 +60,7 @@ public class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor implements
                 if (targetUnit.getColor() == unit.getColor()) {
                     return lastValidTarget;
                 }
+                BattleLogger.logDestroyed(unit, MOVE, targetUnit);
                 targetUnit.setStatus(DESTROYED);
             }
             lastValidTarget = target;

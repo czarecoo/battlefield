@@ -1,7 +1,6 @@
-package com.czareg.battlefield.feature.command.order.utils;
+package com.czareg.battlefield.feature.common.battle.executor.component;
 
 import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
-import com.czareg.battlefield.feature.common.battle.utils.TargetPositionCalculator;
 import com.czareg.battlefield.feature.common.entity.Position;
 import com.czareg.battlefield.feature.common.enums.Direction;
 import org.junit.jupiter.api.Test;

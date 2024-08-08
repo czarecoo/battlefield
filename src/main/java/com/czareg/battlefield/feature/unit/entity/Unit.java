@@ -13,7 +13,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
+@Table(
+        indexes = {
+                @Index(name = "idx_game", columnList = "game_id"),
+                @Index(name = "idx_id_status", columnList = "id, status"),
+                @Index(name = "idx_position_status_game", columnList = "position, status, game_id")
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,22 +32,22 @@ import lombok.Setter;
 public class Unit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Embedded
     private Position position;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private UnitType type;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Color color;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "game_id")
     @JsonIgnore
     private Game game;

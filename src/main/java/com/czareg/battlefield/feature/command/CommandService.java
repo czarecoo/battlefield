@@ -38,8 +38,8 @@ public class CommandService {
     @Transactional(isolation = REPEATABLE_READ)
     public void executeSpecificCommand(SpecificCommandRequestDTO specificCommandDTO) {
         Long unitId = specificCommandDTO.getUnitId();
-        Unit unit = unitService.getOrThrow(unitId);
         cooldownChecker.check(unitId);
+        Unit unit = unitService.getOrThrow(unitId);
         SpecificCommand specificCommand = specificCommandDtoToPojo(specificCommandDTO, unit);
         BattleCommand battleCommand = battleCommandMatcher.match(specificCommand);
         Command command = battleCommand.validateAndExecuteOrThrow(specificCommand);
@@ -49,8 +49,8 @@ public class CommandService {
     @Transactional(isolation = REPEATABLE_READ)
     public void executeRandomCommand(RandomCommandRequestDTO randomCommandDTO) {
         Long unitId = randomCommandDTO.getUnitId();
-        Unit unit = unitService.getOrThrow(unitId);
         cooldownChecker.check(unitId);
+        Unit unit = unitService.getOrThrow(unitId);
 
         List<SpecificCommand> specificCommands = randomSpecificCommandGenerator.generateAll(unit);
         Command command = specificCommands.stream()

@@ -3,6 +3,7 @@ package com.czareg.battlefield.feature.common.battle.executor;
 import com.czareg.battlefield.config.CooldownConfig;
 import com.czareg.battlefield.feature.command.entity.Command;
 import com.czareg.battlefield.feature.common.battle.executor.component.TargetPositionCalculator;
+import com.czareg.battlefield.feature.common.battle.executor.logging.BattleLogger;
 import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.common.entity.Position;
@@ -34,7 +35,11 @@ public class ShootNSquaresVerticallyOrHorizontallyExecutor implements BattleComm
             return new ExecutionResult.Failure(message);
         }
 
-        unitService.findActiveByPositionAndGameId(target, unit.getGame().getId()).ifPresent(targetUnit -> targetUnit.setStatus(DESTROYED));
+        unitService.findActiveByPositionAndGameId(target, unit.getGame().getId())
+                .ifPresentOrElse(targetUnit -> {
+                    BattleLogger.logDestroyed(unit, SHOOT, targetUnit);
+                    targetUnit.setStatus(DESTROYED);
+                }, () -> BattleLogger.logMissed(unit, target));
 
         Command command = Command.of(current, target, unit, cooldownConfig.getArcherShot(), SHOOT);
         return new ExecutionResult.Success(command);

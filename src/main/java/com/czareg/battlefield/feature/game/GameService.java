@@ -8,13 +8,10 @@ import com.czareg.battlefield.feature.game.dto.response.UnitDTO;
 import com.czareg.battlefield.feature.game.entity.Game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
 
 @Slf4j
 @Service
@@ -25,12 +22,12 @@ public class GameService {
     private final GameRepository gameRepository;
     private final GamePrinter gamePrinter;
 
-    @Transactional(isolation = REPEATABLE_READ)
+    @Transactional
     public void createGame() {
         gameFactory.createGame();
     }
 
-    @Transactional(readOnly = true, isolation = REPEATABLE_READ)
+    @Transactional(readOnly = true)
     public GameDTO getGame(Color color) {
         Game game = gameRepository.getFirstByOrderByIdDesc();
         GameDTO gameDTO = game.toDTO();
@@ -43,7 +40,7 @@ public class GameService {
         return gameDTO;
     }
 
-    @Transactional(readOnly = true, isolation = REPEATABLE_READ)
+    @Transactional(readOnly = true)
     public String printGame() {
         Game game = gameRepository.getFirstByOrderByIdDesc();
         return gamePrinter.print(game);
@@ -51,10 +48,5 @@ public class GameService {
 
     public boolean isGameRepositoryEmpty() {
         return gameRepository.count() == 0;
-    }
-
-    public Long getCurrentGameId() {
-        List<Long> topId = gameRepository.findTopId(PageRequest.of(0, 1));
-        return topId.getFirst();
     }
 }

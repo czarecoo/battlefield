@@ -31,8 +31,12 @@ public class UnitService {
         return unitRepository.existsById(unitId);
     }
 
-    public boolean isActiveById(Long id) {
-        return unitRepository.isActiveById(id);
+    public boolean isActiveById(Long unitId) {
+        return unitRepository.isActiveById(unitId);
+    }
+
+    public boolean isUnitInCurrentGame(Long unitId) {
+        return unitRepository.isUnitInCurrentGame(unitId);
     }
 
     public void saveAll(List<Unit> entities) {
