@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static com.czareg.battlefield.feature.common.enums.CommandType.MOVE;
@@ -39,32 +38,25 @@ public class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor implements
             return new ExecutionResult.Failure(message);
         }
         Position target = processTargetsAndReturnLastValid(targets, unit);
-
-        if (!Objects.equals(current, target)) {
-            BattleLogger.logMoved(unit, target);
-            unit.setPosition(target);
-        } else {
-            BattleLogger.logNotMoved(unit, lastTarget);
-        }
-
         Command command = Command.of(current, target, unit, cooldownConfig.getTransportMove(), MOVE);
         return new ExecutionResult.Success(command);
     }
 
     private Position processTargetsAndReturnLastValid(List<Position> targets, Unit unit) {
-        Position lastValidTarget = unit.getPosition();
         for (Position target : targets) {
             Optional<Unit> targetUnitOptional = unitService.findActiveByPositionAndGameId(target, unit.getGame().getId());
             if (targetUnitOptional.isPresent()) {
                 Unit targetUnit = targetUnitOptional.get();
                 if (targetUnit.getColor() == unit.getColor()) {
-                    return lastValidTarget;
+                    return unit.getPosition();
                 }
                 BattleLogger.logDestroyed(unit, MOVE, targetUnit);
                 targetUnit.setStatus(DESTROYED);
+            } else {
+                BattleLogger.logMoved(unit, target);
             }
-            lastValidTarget = target;
+            unit.setPosition(target);
         }
-        return lastValidTarget;
+        return unit.getPosition();
     }
 }

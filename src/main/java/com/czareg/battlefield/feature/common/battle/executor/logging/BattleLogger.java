@@ -10,10 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 public class BattleLogger {
 
-    public static void logNotMoved(Unit source, Position target) {
-        log.debug("{} {} at {} did not move to {}", source.getColor(), source.getType(), source.getPosition(), target);
-    }
-
     public static void logMoved(Unit source, Position target) {
         log.debug("{} {} at {} moved to {}", source.getColor(), source.getType(), source.getPosition(), target);
     }
