@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface IsFromCurrentGame {
 
-    String message() default "Unit is not for current game";
+    String message() default "Unit is not from current game";
 
     Class<?>[] groups() default {};
 
