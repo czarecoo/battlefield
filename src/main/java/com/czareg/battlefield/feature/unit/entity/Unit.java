@@ -22,7 +22,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
         indexes = {
                 @Index(name = "idx_game", columnList = "game_id"),
                 @Index(name = "idx_id_status", columnList = "id, status"),
-                @Index(name = "idx_position_status_game", columnList = "position, status, game_id")
+                @Index(name = "idx_position_status_game", columnList = "x, y, status, game_id")
         }
 )
 @Getter
