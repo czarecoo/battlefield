@@ -3,6 +3,7 @@ package com.czareg.battlefield.config.advice;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,12 +32,12 @@ public class GlobalControllerAdvice {
         );
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(CommandException.class)
-    public ErrorResponse handleCommandException(CommandException ex, WebRequest request) {
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    @ExceptionHandler(CooldownException.class)
+    public ErrorResponse handleCooldownException(CooldownException ex, WebRequest request) {
         return new ErrorResponse(Instant.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                HttpStatus.TOO_MANY_REQUESTS.value(),
+                HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase(),
                 request.getDescription(false),
                 List.of(),
                 ex.getMessage(),
@@ -44,12 +45,12 @@ public class GlobalControllerAdvice {
         );
     }
 
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    @ExceptionHandler(CooldownException.class)
-    public ErrorResponse handleCooldownException(CooldownException ex, WebRequest request) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(CommandException.class)
+    public ErrorResponse handleCommandException(CommandException ex, WebRequest request) {
         return new ErrorResponse(Instant.now(),
-                HttpStatus.TOO_MANY_REQUESTS.value(),
-                HttpStatus.TOO_MANY_REQUESTS.getReasonPhrase(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 request.getDescription(false),
                 List.of(),
                 ex.getMessage(),
@@ -73,6 +74,19 @@ public class GlobalControllerAdvice {
                 request.getDescription(false),
                 errors,
                 "Validation failed",
+                null
+        );
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
+        return new ErrorResponse(Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                request.getDescription(false),
+                List.of(),
+                ex.getMessage(),
                 null
         );
     }
