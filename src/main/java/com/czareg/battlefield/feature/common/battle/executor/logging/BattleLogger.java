@@ -26,4 +26,8 @@ public class BattleLogger {
     public static void logMissed(Unit source, Position target) {
         log.debug("{} {} at {} shot and missed at {}", source.getColor(), source.getType(), source.getPosition(), target);
     }
+
+    public static void triedToMove(Unit source, Position target) {
+        log.debug("{} {} at {} tried and failed to move into friendly unit at {}", source.getColor(), source.getType(), source.getPosition(), target);
+    }
 }
