@@ -3,16 +3,14 @@ package com.czareg.battlefield.config.validation;
 import com.czareg.battlefield.config.NewGameConfig;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TotalUnitsFitBoardValidator implements ConstraintValidator<TotalUnitsFitBoard, NewGameConfig> {
 
     @Override
-    public boolean isValid(NewGameConfig config, ConstraintValidatorContext cxt) {
-        if (config == null) {
-            return false;
-        }
+    public boolean isValid(@NonNull NewGameConfig config, ConstraintValidatorContext cxt) {
         int totalSpace = config.getBoardWidth() * config.getBoardHeight();
         int totalUnits = (config.getArcherCount() + config.getTransportCount() + config.getCannonCount()) * 2;
         if (totalSpace < totalUnits) {
@@ -21,7 +19,6 @@ public class TotalUnitsFitBoardValidator implements ConstraintValidator<TotalUni
             cxt.buildConstraintViolationWithTemplate(customMessage).addConstraintViolation();
             return false;
         }
-
         return true;
     }
 }

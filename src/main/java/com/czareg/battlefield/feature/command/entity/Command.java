@@ -12,7 +12,17 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
+@Table(
+        indexes = {
+                @Index(name = "idx_unit_id", columnList = "unit_id"),
+                @Index(name = "idx_cooldown_finishing_at", columnList = "cooldownFinishingAt")
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +30,10 @@ import java.time.Instant;
 public class Command {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "unit_id", nullable = false)
     @JsonIgnore
     private Unit unit;
@@ -31,7 +41,7 @@ public class Command {
     private Instant createdAt;
     private Instant cooldownFinishingAt;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private CommandType type;
 
     @AttributeOverrides(value = {
@@ -47,4 +57,16 @@ public class Command {
     })
     @Embedded
     private Position target;
+
+    public static Command of(Position current, Position target, Unit unit, int cooldownInMillis, CommandType commandType) {
+        Instant now = Instant.now();
+        Command command = new Command();
+        command.setUnit(unit);
+        command.setCreatedAt(now);
+        command.setCooldownFinishingAt(now.plusMillis(cooldownInMillis));
+        command.setType(commandType);
+        command.setBefore(current);
+        command.setTarget(target);
+        return command;
+    }
 }

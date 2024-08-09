@@ -12,6 +12,9 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.List;
 
+import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Getter
 @Setter
@@ -20,13 +23,13 @@ import java.util.List;
 public class Game {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Embedded
     private Board board;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game", fetch = EAGER)
     private List<Unit> units;
 
     private Instant createdAt;

@@ -22,8 +22,21 @@ public class UnitService {
         return unitRepository.findActiveByPositionAndGameId(position, gameId);
     }
 
-    public Optional<Unit> findById(Long unitId) {
-        return unitRepository.findById(unitId);
+    public Unit getOrThrow(Long unitId) {
+        return unitRepository.findById(unitId)
+                .orElseThrow(() -> new IllegalStateException("Unknown unit id: %s".formatted(unitId)));
+    }
+
+    public boolean existsById(Long unitId) {
+        return unitRepository.existsById(unitId);
+    }
+
+    public boolean isActiveById(Long unitId) {
+        return unitRepository.isActiveById(unitId);
+    }
+
+    public boolean isUnitInCurrentGame(Long unitId) {
+        return unitRepository.isUnitInCurrentGame(unitId);
     }
 
     public void saveAll(List<Unit> entities) {
