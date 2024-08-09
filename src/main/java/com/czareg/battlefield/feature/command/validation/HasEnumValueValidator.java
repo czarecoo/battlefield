@@ -2,6 +2,7 @@ package com.czareg.battlefield.feature.command.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class HasEnumValueValidator implements ConstraintValidator<HasEnumValue, 
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext cxt) {
+    public boolean isValid(@NonNull String value, ConstraintValidatorContext cxt) {
         if (!availableEnumNames.contains(value)) {
             cxt.disableDefaultConstraintViolation();
             String customMessage = String.format("Value: %s does match any of valid names: %s", value, availableEnumNames);
