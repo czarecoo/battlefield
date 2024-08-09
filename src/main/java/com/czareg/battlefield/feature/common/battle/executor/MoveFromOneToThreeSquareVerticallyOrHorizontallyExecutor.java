@@ -48,6 +48,7 @@ public class MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor implements
             if (targetUnitOptional.isPresent()) {
                 Unit targetUnit = targetUnitOptional.get();
                 if (targetUnit.getColor() == unit.getColor()) {
+                    BattleLogger.triedToMove(unit, target);
                     return unit.getPosition();
                 }
                 BattleLogger.logDestroyed(unit, MOVE, targetUnit);
