@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.springframework.transaction.annotation.Isolation.READ_COMMITTED;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class GameService {
         gameFactory.createGame();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, isolation = READ_COMMITTED)
     public GameDTO getGame(Color color) {
         Game game = gameRepository.getFirstByOrderByIdDesc();
         GameDTO gameDTO = game.toDTO();
@@ -40,7 +42,7 @@ public class GameService {
         return gameDTO;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, isolation = READ_COMMITTED)
     public String printGame() {
         Game game = gameRepository.getFirstByOrderByIdDesc();
         return gamePrinter.print(game);
