@@ -22,9 +22,9 @@ public class GameFactory {
 
     public void createGame() {
         Game game = new Game();
-        Board board = new Board();
-        board.setWidth(newGameConfig.getBoardWidth());
-        board.setHeight(newGameConfig.getBoardHeight());
+        int boardWidth = newGameConfig.getBoardWidth();
+        int boardHeight = newGameConfig.getBoardHeight();
+        Board board = new Board(boardWidth, boardHeight);
         game.setBoard(board);
         gameRepository.save(game);
 

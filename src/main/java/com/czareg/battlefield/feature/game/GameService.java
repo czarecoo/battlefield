@@ -27,6 +27,7 @@ public class GameService {
     @Transactional
     public void createGame() {
         gameFactory.createGame();
+        log.info("New game created");
     }
 
     @Transactional(readOnly = true, isolation = READ_COMMITTED)

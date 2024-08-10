@@ -1,59 +1,26 @@
 package com.czareg.battlefield.feature.common.entity;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
-    @Test
-    void shouldReturnTrueWhenPositionIsOutOfLowerBounds() {
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, true",
+            "6, 6, true",
+            "3, 3, false",
+            "1, 1, false",
+            "5, 5, false"
+    })
+    void testIsOutOfBounds(int x, int y, boolean expected) {
         Board board = new Board(5, 5);
-        Position position = new Position(0, 0);
+        Position position = new Position(x, y);
 
         boolean isOutOfBounds = board.isOutOfBounds(position);
 
-        assertTrue(isOutOfBounds);
-    }
-
-    @Test
-    void shouldReturnTrueWhenPositionIsOutOfUpperBounds() {
-        Board board = new Board(5, 5);
-        Position position = new Position(6, 6);
-
-        boolean isOutOfBounds = board.isOutOfBounds(position);
-
-        assertTrue(isOutOfBounds);
-    }
-
-    @Test
-    void shouldReturnFalseWhenPositionIsWithinBounds() {
-        Board board = new Board(5, 5);
-        Position position = new Position(3, 3);
-
-        boolean isOutOfBounds = board.isOutOfBounds(position);
-
-        assertFalse(isOutOfBounds);
-    }
-
-    @Test
-    void shouldReturnTrueWhenPositionIsOnLowerBoundary() {
-        Board board = new Board(5, 5);
-        Position position = new Position(1, 1);
-
-        boolean isOutOfBounds = board.isOutOfBounds(position);
-
-        assertFalse(isOutOfBounds);
-    }
-
-    @Test
-    void shouldReturnTrueWhenPositionIsOnUpperBoundary() {
-        Board board = new Board(5, 5);
-        Position position = new Position(5, 5);
-
-        boolean isOutOfBounds = board.isOutOfBounds(position);
-
-        assertFalse(isOutOfBounds);
+        assertEquals(expected, isOutOfBounds);
     }
 }

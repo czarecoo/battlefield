@@ -7,15 +7,14 @@ import lombok.*;
 
 @Embeddable
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Position {
 
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Position calculateNewPosition(Direction direction, int squares) {
         int newX = x;

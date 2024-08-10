@@ -12,30 +12,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PathCalculatorTest {
 
+    PathCalculator pathCalculator = new PathCalculator();
+
     @Test
     void shouldReturnListOfTwoPositionsWhenMovingRightForTwoSquares() {
-        PathCalculator pathCalculator = new PathCalculator();
-        Position startPosition = new Position(0, 0);
+        Position startPosition = new Position(10, 10);
         CommandDetails commandDetails = new CommandDetails(RIGHT, 2);
 
         List<Position> positions = pathCalculator.calculate(startPosition, commandDetails);
 
         assertEquals(2, positions.size());
-        assertEquals(new Position(1, 0), positions.get(0));
-        assertEquals(new Position(2, 0), positions.get(1));
+        assertEquals(new Position(11, 10), positions.get(0));
+        assertEquals(new Position(12, 10), positions.get(1));
     }
 
     @Test
     void shouldReturnListOfThreePositionsWhenMovingUpForThreeSquares() {
-        PathCalculator pathCalculator = new PathCalculator();
-        Position startPosition = new Position(0, 0);
+        Position startPosition = new Position(4, 4);
         CommandDetails commandDetails = new CommandDetails(UP, 3);
 
         List<Position> positions = pathCalculator.calculate(startPosition, commandDetails);
 
         assertEquals(3, positions.size());
-        assertEquals(new Position(0, 1), positions.get(0));
-        assertEquals(new Position(0, 2), positions.get(1));
-        assertEquals(new Position(0, 3), positions.get(2));
+        assertEquals(new Position(4, 5), positions.get(0));
+        assertEquals(new Position(4, 6), positions.get(1));
+        assertEquals(new Position(4, 7), positions.get(2));
     }
 }
