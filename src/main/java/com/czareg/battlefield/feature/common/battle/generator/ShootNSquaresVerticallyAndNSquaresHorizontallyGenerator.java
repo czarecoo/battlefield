@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.common.battle.generator;
 
+import com.czareg.battlefield.feature.common.battle.SpecificCommandFactory;
 import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
 import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.common.entity.Board;
@@ -19,6 +20,7 @@ import static com.czareg.battlefield.feature.common.enums.Direction.*;
 public class ShootNSquaresVerticallyAndNSquaresHorizontallyGenerator implements SpecificCommandGenerator {
 
     private final ShootNSquaresVerticallyOrHorizontallyGenerator generator;
+    private final SpecificCommandFactory specificCommandFactory;
 
     @Override
     public List<SpecificCommand> generate(Unit unit) {
@@ -38,7 +40,9 @@ public class ShootNSquaresVerticallyAndNSquaresHorizontallyGenerator implements 
             for (int horizontalSquares = 1; horizontalSquares <= maxHorizontalSquares; horizontalSquares++) {
                 CommandDetails horizontalCommandDetails = new CommandDetails(horizontalDirection, horizontalSquares);
                 CommandDetails verticalCommandDetails = new CommandDetails(verticalDirection, verticalSquares);
-                specificCommands.add(new SpecificCommand(unit, SHOOT, List.of(horizontalCommandDetails, verticalCommandDetails)));
+                List<CommandDetails> commandDetails = List.of(horizontalCommandDetails, verticalCommandDetails);
+                SpecificCommand specificCommand = specificCommandFactory.create(unit, SHOOT, commandDetails);
+                specificCommands.add(specificCommand);
             }
         }
         return specificCommands;

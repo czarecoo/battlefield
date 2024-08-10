@@ -19,14 +19,14 @@ public class CooldownConfig {
 
     @Min(0)
     @Max(TEN_MINUTES_IN_MILLIS)
-    private final int archerMove;
+    private final int moveOneSquareVerticallyOrHorizontallyInMillis;
     @Min(0)
     @Max(TEN_MINUTES_IN_MILLIS)
-    private final int archerShot;
+    private final int shootNSquaresVerticallyOrHorizontallyInMillis;
     @Min(0)
     @Max(TEN_MINUTES_IN_MILLIS)
-    private final int transportMove;
+    private final int moveFromOneToThreeSquaresVerticallyOrHorizontallyInMillis;
     @Min(0)
     @Max(TEN_MINUTES_IN_MILLIS)
-    private final int cannonShot;
+    private final int shootNSquaresVerticallyAndNSquaresHorizontallyInMillis;
 }

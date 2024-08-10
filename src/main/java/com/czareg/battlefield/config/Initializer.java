@@ -13,11 +13,13 @@ import org.springframework.stereotype.Component;
 public class Initializer implements ApplicationRunner {
 
     private final NewGameConfig newGameConfig;
+    private final CooldownConfig cooldownConfig;
     private final GameService gameService;
 
     @Override
     public void run(ApplicationArguments args) {
         log.info(newGameConfig.toString());
+        log.info(cooldownConfig.toString());
         if (gameService.isGameRepositoryEmpty()) {
             log.info("No game found in repository. Creating new game.");
             gameService.createGame();

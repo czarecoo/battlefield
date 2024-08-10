@@ -4,8 +4,8 @@ import com.czareg.battlefield.feature.common.battle.executor.BattleCommandExecut
 import com.czareg.battlefield.feature.common.battle.executor.ShootNSquaresVerticallyAndNSquaresHorizontallyExecutor;
 import com.czareg.battlefield.feature.common.battle.generator.ShootNSquaresVerticallyAndNSquaresHorizontallyGenerator;
 import com.czareg.battlefield.feature.common.battle.generator.SpecificCommandGenerator;
-import com.czareg.battlefield.feature.common.battle.validator.CommandDetailsValidator;
 import com.czareg.battlefield.feature.common.battle.validator.ShootNSquaresVerticallyAndNSquaresHorizontallyValidator;
+import com.czareg.battlefield.feature.common.battle.validator.SpecificCommandValidator;
 import com.czareg.battlefield.feature.common.enums.CommandType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class ShootNSquaresVerticallyAndNSquaresHorizontallyCommand implements Ba
     }
 
     @Override
-    public CommandDetailsValidator getCommandDetailsValidator() {
+    public SpecificCommandValidator getSpecificCommandValidator() {
         return validator;
     }
 

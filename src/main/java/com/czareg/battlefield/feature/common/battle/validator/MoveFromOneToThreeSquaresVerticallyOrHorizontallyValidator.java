@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ShootNSquaresVerticallyOrHorizontallyValidator implements SpecificCommandValidator {
+public class MoveFromOneToThreeSquaresVerticallyOrHorizontallyValidator implements SpecificCommandValidator {
 
     private final TargetInBoundOfBoardValidator targetInBoundOfBoardValidator;
 
@@ -24,8 +24,8 @@ public class ShootNSquaresVerticallyOrHorizontallyValidator implements SpecificC
         }
         CommandDetails detail = details.getFirst();
         int squares = detail.getSquares();
-        if (squares <= 0) {
-            return Optional.of(new CommandException("Command required at last one square"));
+        if (squares < 1 || squares > 3) {
+            return Optional.of(new CommandException("Command requires one, two or three squares"));
         }
         return targetInBoundOfBoardValidator.validate(specificCommand);
     }
