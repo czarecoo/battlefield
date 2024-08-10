@@ -4,8 +4,8 @@ import com.czareg.battlefield.feature.common.battle.executor.BattleCommandExecut
 import com.czareg.battlefield.feature.common.battle.executor.MoveOneSquareVerticallyOrHorizontallyExecutor;
 import com.czareg.battlefield.feature.common.battle.generator.MoveOneSquareVerticallyOrHorizontallyGenerator;
 import com.czareg.battlefield.feature.common.battle.generator.SpecificCommandGenerator;
-import com.czareg.battlefield.feature.common.battle.validator.CommandDetailsValidator;
 import com.czareg.battlefield.feature.common.battle.validator.MoveOneSquareVerticallyOrHorizontallyValidator;
+import com.czareg.battlefield.feature.common.battle.validator.SpecificCommandValidator;
 import com.czareg.battlefield.feature.common.enums.CommandType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class MoveOneSquareVerticallyOrHorizontallyCommand implements BattleComma
     }
 
     @Override
-    public CommandDetailsValidator getCommandDetailsValidator() {
+    public SpecificCommandValidator getSpecificCommandValidator() {
         return validator;
     }
 

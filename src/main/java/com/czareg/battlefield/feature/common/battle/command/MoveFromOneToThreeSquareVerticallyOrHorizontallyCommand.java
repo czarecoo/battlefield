@@ -1,11 +1,11 @@
 package com.czareg.battlefield.feature.common.battle.command;
 
 import com.czareg.battlefield.feature.common.battle.executor.BattleCommandExecutor;
-import com.czareg.battlefield.feature.common.battle.executor.MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor;
-import com.czareg.battlefield.feature.common.battle.generator.MoveFromOneToThreeSquareVerticallyOrHorizontallyGenerator;
+import com.czareg.battlefield.feature.common.battle.executor.MoveFromOneToThreeSquaresVerticallyOrHorizontallyExecutor;
+import com.czareg.battlefield.feature.common.battle.generator.MoveFromOneToThreeSquaresVerticallyOrHorizontallyGenerator;
 import com.czareg.battlefield.feature.common.battle.generator.SpecificCommandGenerator;
-import com.czareg.battlefield.feature.common.battle.validator.CommandDetailsValidator;
-import com.czareg.battlefield.feature.common.battle.validator.MoveFromOneToThreeSquareVerticallyOrHorizontallyValidator;
+import com.czareg.battlefield.feature.common.battle.validator.MoveFromOneToThreeSquaresVerticallyOrHorizontallyValidator;
+import com.czareg.battlefield.feature.common.battle.validator.SpecificCommandValidator;
 import com.czareg.battlefield.feature.common.enums.CommandType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,9 +16,9 @@ import static com.czareg.battlefield.feature.common.enums.CommandType.MOVE;
 @RequiredArgsConstructor
 public class MoveFromOneToThreeSquareVerticallyOrHorizontallyCommand implements BattleCommand {
 
-    private final MoveFromOneToThreeSquareVerticallyOrHorizontallyValidator validator;
-    private final MoveFromOneToThreeSquareVerticallyOrHorizontallyExecutor executor;
-    private final MoveFromOneToThreeSquareVerticallyOrHorizontallyGenerator generator;
+    private final MoveFromOneToThreeSquaresVerticallyOrHorizontallyValidator validator;
+    private final MoveFromOneToThreeSquaresVerticallyOrHorizontallyExecutor executor;
+    private final MoveFromOneToThreeSquaresVerticallyOrHorizontallyGenerator generator;
 
     @Override
     public BattleCommandExecutor getBattleCommandExecutor() {
@@ -26,7 +26,7 @@ public class MoveFromOneToThreeSquareVerticallyOrHorizontallyCommand implements 
     }
 
     @Override
-    public CommandDetailsValidator getCommandDetailsValidator() {
+    public SpecificCommandValidator getSpecificCommandValidator() {
         return validator;
     }
 

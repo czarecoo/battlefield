@@ -1,5 +1,6 @@
 package com.czareg.battlefield.feature.common.battle.pojo;
 
+import com.czareg.battlefield.feature.common.entity.Position;
 import com.czareg.battlefield.feature.common.enums.CommandType;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import lombok.Value;
@@ -12,4 +13,5 @@ public class SpecificCommand {
     Unit unit;
     CommandType command;
     List<CommandDetails> details;
+    Position target;
 }
