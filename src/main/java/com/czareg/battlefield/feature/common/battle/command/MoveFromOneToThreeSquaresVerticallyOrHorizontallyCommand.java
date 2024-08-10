@@ -14,7 +14,7 @@ import static com.czareg.battlefield.feature.common.enums.CommandType.MOVE;
 
 @Component
 @RequiredArgsConstructor
-public class MoveFromOneToThreeSquareVerticallyOrHorizontallyCommand implements BattleCommand {
+public class MoveFromOneToThreeSquaresVerticallyOrHorizontallyCommand implements BattleCommand {
 
     private final MoveFromOneToThreeSquaresVerticallyOrHorizontallyValidator validator;
     private final MoveFromOneToThreeSquaresVerticallyOrHorizontallyExecutor executor;
