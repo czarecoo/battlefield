@@ -4,7 +4,6 @@ import com.czareg.battlefield.config.advice.CommandException;
 import com.czareg.battlefield.feature.common.battle.pojo.CommandDetails;
 import com.czareg.battlefield.feature.common.battle.pojo.SpecificCommand;
 import com.czareg.battlefield.feature.common.battle.validator.subvalidator.TargetInBoundOfBoardValidator;
-import com.czareg.battlefield.feature.common.enums.Direction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,19 +13,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static com.czareg.battlefield.feature.common.enums.Direction.RIGHT;
-import static com.czareg.battlefield.feature.common.enums.Direction.UP;
+import static com.czareg.battlefield.feature.common.enums.Direction.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class MoveOneSquareVerticallyOrHorizontallyValidatorTest {
+class ShootNSquaresVerticallyAndNSquaresHorizontallyValidatorTest {
 
     @Mock
     private TargetInBoundOfBoardValidator targetInBoundOfBoardValidator;
-
     @InjectMocks
-    private MoveOneSquareVerticallyOrHorizontallyValidator validator;
+    private ShootNSquaresVerticallyAndNSquaresHorizontallyValidator validator;
 
     @Test
     void shouldReturnCommandExceptionWhenNoDetailsProvided() {
@@ -40,11 +37,12 @@ class MoveOneSquareVerticallyOrHorizontallyValidatorTest {
     }
 
     @Test
-    void shouldReturnCommandExceptionWhenMoreThanOneDetailProvided() {
+    void shouldReturnCommandExceptionWhenMoreThanTwoDetailsProvided() {
         SpecificCommand specificCommand = SpecificCommand.builder()
                 .details(List.of(
-                        new CommandDetails(RIGHT, 1),
-                        new CommandDetails(UP, 1)
+                        new CommandDetails(RIGHT, 2),
+                        new CommandDetails(UP, 2),
+                        new CommandDetails(LEFT, 2)
                 ))
                 .build();
 
@@ -54,22 +52,10 @@ class MoveOneSquareVerticallyOrHorizontallyValidatorTest {
     }
 
     @Test
-    void shouldReturnCommandExceptionWhenMovingZeroSquares() {
+    void shouldReturnCommandExceptionWhenTwoDetailsHaveSameDirection() {
         SpecificCommand specificCommand = SpecificCommand.builder()
                 .details(List.of(
-                        new CommandDetails(RIGHT, 0)
-                ))
-                .build();
-
-        Optional<CommandException> result = validator.validate(specificCommand);
-
-        assertTrue(result.isPresent());
-    }
-
-    @Test
-    void shouldReturnCommandExceptionWhenMovingMoreThanOneSquare() {
-        SpecificCommand specificCommand = SpecificCommand.builder()
-                .details(List.of(
+                        new CommandDetails(RIGHT, 2),
                         new CommandDetails(RIGHT, 2)
                 ))
                 .build();
@@ -80,10 +66,54 @@ class MoveOneSquareVerticallyOrHorizontallyValidatorTest {
     }
 
     @Test
-    void shouldDelegateValidationToTargetInBoundOfBoardValidator() {
+    void shouldReturnCommandExceptionWhenTwoDetailsHaveOpposingDirectionsHorizontally() {
         SpecificCommand specificCommand = SpecificCommand.builder()
                 .details(List.of(
-                        new CommandDetails(Direction.RIGHT, 1)
+                        new CommandDetails(LEFT, 2),
+                        new CommandDetails(RIGHT, 2)
+                ))
+                .build();
+
+        Optional<CommandException> result = validator.validate(specificCommand);
+
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldReturnCommandExceptionWhenTwoDetailsHaveOpposingDirectionsVertically() {
+        SpecificCommand specificCommand = SpecificCommand.builder()
+                .details(List.of(
+                        new CommandDetails(UP, 2),
+                        new CommandDetails(DOWN, 2)
+                ))
+                .build();
+
+        Optional<CommandException> result = validator.validate(specificCommand);
+
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    void shouldDelegateValidationToTargetInBoundOfBoardValidatorWhenValidSingleDetail() {
+        SpecificCommand specificCommand = SpecificCommand.builder()
+                .details(List.of(
+                        new CommandDetails(RIGHT, 2)
+                ))
+                .build();
+
+        when(targetInBoundOfBoardValidator.validate(specificCommand)).thenReturn(Optional.empty());
+
+        Optional<CommandException> result = validator.validate(specificCommand);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void shouldDelegateValidationToTargetInBoundOfBoardValidatorWhenValidTwoDetails() {
+        SpecificCommand specificCommand = SpecificCommand.builder()
+                .details(List.of(
+                        new CommandDetails(RIGHT, 2),
+                        new CommandDetails(UP, 2)
                 ))
                 .build();
 

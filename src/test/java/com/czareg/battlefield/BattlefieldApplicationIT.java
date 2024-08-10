@@ -9,5 +9,4 @@ class BattlefieldApplicationIT {
 	@Test
 	void contextLoads() {
 	}
-
 }

@@ -4,10 +4,7 @@ import com.czareg.battlefield.feature.common.entity.Board;
 import com.czareg.battlefield.feature.game.dto.response.GameDTO;
 import com.czareg.battlefield.feature.unit.entity.Unit;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -20,6 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Game {
 
     @Id

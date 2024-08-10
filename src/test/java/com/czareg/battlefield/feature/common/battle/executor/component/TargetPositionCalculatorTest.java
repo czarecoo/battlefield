@@ -12,22 +12,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TargetPositionCalculatorTest {
 
+    TargetPositionCalculator targetPositionCalculator = new TargetPositionCalculator();
+
     @Test
     void shouldReturnTargetPositionWhenMovingRightForTwoSquares() {
-        TargetPositionCalculator targetPositionCalculator = new TargetPositionCalculator();
-        Position startPosition = new Position(0, 0);
+        Position startPosition = new Position(1, 1);
         List<CommandDetails> commands = List.of(
                 new CommandDetails(RIGHT, 2)
         );
 
         Position targetPosition = targetPositionCalculator.calculate(startPosition, commands);
 
-        assertEquals(new Position(2, 0), targetPosition);
+        assertEquals(new Position(3, 1), targetPosition);
     }
 
     @Test
     void shouldReturnTargetPositionWhenMovingInTwoDirections() {
-        TargetPositionCalculator targetPositionCalculator = new TargetPositionCalculator();
         Position startPosition = new Position(3, 5);
         List<CommandDetails> commands = List.of(
                 new CommandDetails(Direction.LEFT, 2),
