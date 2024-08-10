@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.transaction.annotation.Isolation.REPEATABLE_READ;
@@ -49,8 +48,7 @@ public class CommandService {
         Long unitId = randomCommandDTO.getUnitId();
         cooldownChecker.check(unitId);
         Unit unit = unitService.getOrThrow(unitId);
-        List<SpecificCommand> specificCommands = randomSpecificCommandGenerator.generateAll(unit);
-        Command command = specificCommands.stream()
+        Command command = randomSpecificCommandGenerator.generateAll(unit)
                 .map(specificCommandProcessor::processOrEmpty)
                 .flatMap(Optional::stream)
                 .findFirst()
